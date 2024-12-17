@@ -26,6 +26,7 @@ returns list of all articles
 
 `GET /shopping_articles/:id`
 return specific article (*OPTIONAL*)
+
 `POST / shopping_articles`
 create new article
 
@@ -77,6 +78,7 @@ returns list of all articles selected by user
 
 `GET /shopping_cart/:id`
 return specific article selected by user (*OPTIONAL*)
+
 `POST / shopping_cart`
 add article selected by user
 
@@ -123,6 +125,7 @@ returns list of all categories
 
 `GET /categories/:id`
 return specific category (*OPTIONAL*)
+
 `POST / categories`
 create new category
 
