@@ -1,0 +1,56 @@
+{
+    "shopping_list": {
+        "shopping_articles_list": [
+            {
+                "name": "article1",
+                "category": "category1",
+                "selection": 1
+            },
+            {
+                "name": "article2",
+                "category": "category2",
+                "selection": 2
+            }
+        ],
+        "shopping_list": [
+            {
+                "article_name": "article1",
+                "amount": 1,
+                "checked": false
+            }
+            {
+                "article_name": "article2",
+                "amount": 1,
+                "checked": true
+            }
+        ],
+        "categories": [
+            "category1",
+            "category2"
+        ],
+        "shops": [
+            {
+                "name": "shop1",
+                "logo": "logo1",
+                "category_list": [
+                    "category1",
+                    "category2"
+                ]
+            },
+            {
+                "name": "shop2",
+                "logo": "logo2",
+                "category_list": [
+                    "category2",
+                    "category1"
+                ]
+            }
+        ],
+        "current_shop": "shop1",
+        "shops_icons": {
+            "logo1.png": "png in string",
+            "logo2.png": "png in string"
+        },
+        "timestamp": 1234567890
+    }
+}
