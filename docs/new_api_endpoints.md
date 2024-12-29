@@ -12,13 +12,19 @@ returns list of all articles
   {
     "id": 1,
     "name": "article1",
-    "category": "category1",
+    "category": {
+      "id": 1,
+      "name": "category1"
+    },
     "selection": 1
   },
   {
     "id": 2,
     "name": "article2",
-    "category": "category2",
+    "category": {
+        "id": 2,
+        "name": "category2"
+    },
     "selection": 1
   }
 ]
@@ -27,14 +33,16 @@ returns list of all articles
 `GET /shopping_articles/:id`
 return specific article (*OPTIONAL*)
 
-`POST / shopping_articles`
+`POST /shopping_articles`
 create new article
 
 ```json
 {
   "name": "article3",
-  "category": "category3",
-  "selection": 1
+  "category": {
+    "id": 3,
+    "name": "category3"
+  },
 }
 ```
 
@@ -44,8 +52,10 @@ update specific article
 ```json
 {
   "name": "article3",
-  "category": "category3",
-  "selection": 1
+  "category": {
+    "id": 3,
+    "name": "category3"
+  },
 }
 ```
 
@@ -58,6 +68,8 @@ delete specific article
 
 `GET /shopping_cart`
 returns list of all articles selected by user
+### Query parameters:
+- `checked` - boolean, if true return only checked articles, if false return only unchecked articles
 
 ```json
 [
@@ -79,7 +91,7 @@ returns list of all articles selected by user
 `GET /shopping_cart/:id`
 return specific article selected by user (*OPTIONAL*)
 
-`POST / shopping_cart`
+`POST /shopping_cart`
 add article selected by user
 
 ```json
@@ -126,7 +138,7 @@ returns list of all categories
 `GET /categories/:id`
 return specific category (*OPTIONAL*)
 
-`POST / categories`
+`POST /categories`
 create new category
 
 ```json
@@ -171,7 +183,7 @@ return specific shop
 }
 ```
 
-`POST / shops`
+`POST /shops`
 create new shop
 
 ```json
@@ -203,8 +215,14 @@ returns list of categories for specific shop
 
 ```json
 [
-  1,
-  2
+  {
+    "id": 1,
+    "name": "category1"
+  },
+  {
+    "id": 2,
+    "name": "category2"
+  }
 ]
 ```
 
@@ -213,9 +231,18 @@ updates categories list for specific shop
 
 ```json
 [
-  1,
-  2,
-  3
+  {
+    "id": 1,
+    "name": "category1"
+  },
+  {
+    "id": 2,
+    "name": "category2"
+  },
+  {
+    "id": 3,
+    "name": "category3"
+  }
 ]
 ```
 
@@ -248,10 +275,14 @@ updates current selected shop
 ## this endpoint will provide an access to timestamp of last change in database.
 
 `GET /last_change_timestamp`
-returns timestamp of last change in database
+returns timestamp of last change for each table in database
 
 ```json
 {
-  "timestamp": 123456789.898
+  "shopping_articles": 123456789.898,
+  "shopping_cart": 123456789.898,
+  "categories": 123456789.898,
+  "shops": 123456789.898,
+  "current_shop": 123456789.898
 }
 ```

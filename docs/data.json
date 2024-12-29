@@ -1,0 +1,90 @@
+{
+  "shopping_articles": [
+    {
+      "id": 1,
+      "name": "article1",
+      "category": {
+        "id": 1,
+        "name": "category1"
+      },
+      "selection": 1
+    },
+    {
+      "id": 2,
+      "name": "article2",
+      "category": {
+        "id": 2,
+        "name": "category2"
+      },
+      "selection": 1
+    }
+  ],
+  "categories": [
+    {
+      "id": 1,
+      "name": "category1"
+    },
+    {
+      "id": 2,
+      "name": "category2"
+    }
+  ],
+  "shopping_cart": [
+    {
+      "id": 1,
+      "article_id": 1,
+      "quantity": 1,
+      "checked": false
+    },
+    {
+      "id": 1,
+      "article_id": 2,
+      "quantity": 1,
+      "checked": true
+    }
+  ],
+  "shops": [
+    {
+      "id": 1,
+      "logo": "logo1.jpg",
+      "name": "shop1",
+      "categories": [
+        {
+          "id": 1,
+          "name": "category1"
+        },
+        {
+          "id": 2,
+          "name": "category2"
+        }
+      ]
+    },
+    {
+      "id": 2,
+      "logo": "logo2.jpg",
+      "name": "shop2",
+      "categories": [
+        {
+          "id": 1,
+          "name": "category1"
+        },
+        {
+          "id": 2,
+          "name": "category2"
+        }
+      ]
+    }
+  ],
+  "current_shop": {
+    "id": 1,
+    "logo": "logo1.jpg",
+    "name": "shop1"
+  },
+  "last_change_timestamp": {
+    "shopping_articles": 123456789.898,
+    "shopping_cart": 123456789.898,
+    "categories": 123456789.898,
+    "shops": 123456789.898,
+    "current_shop": 123456789.898
+  }
+}
