@@ -1,6 +1,17 @@
 const express = require("express");
 const router = express.Router();
 const { ShoppingArticles, Categories } = require("../db/db");
+const { Op } = require("sequelize");
+
+const deleteCategoryIfUnused = async (categoryId) => {
+  if (
+    (await ShoppingArticles.findOne({ where: { category_id: categoryId } })) ===
+    null
+  ) {
+    const category = await Categories.findByPk(categoryId);
+    await category.destroy();
+  }
+};
 
 router.get("/", async (req, res) => {
   const shoppingArticles = await ShoppingArticles.findAll();
@@ -64,6 +75,7 @@ router.post("/", async (req, res) => {
 
 router.put("/:id", async (req, res) => {
   const shoppingArticle = await ShoppingArticles.findByPk(req.params.id);
+  const oldCategoryId = shoppingArticle?.category_id;
   const { name, category } = req.body;
   if (!name || !category?.id) {
     return res.status(400).send("Name and category ID are required");
@@ -71,22 +83,38 @@ router.put("/:id", async (req, res) => {
   if ((await Categories.findByPk(category.id)) === null) {
     return res.status(404).send("Category not found");
   }
-  if (
-    (await ShoppingArticles.findOne({
-      where: { name, category_id: category.id },
-    })) !== null
-  ) {
-    return res
-      .status(409)
-      .send("Shopping article with this name and category already exists");
-  }
   if (!shoppingArticle) {
+    if (
+      (await ShoppingArticles.findOne({
+        where: {
+          name,
+          category_id: category.id,
+        },
+      })) !== null
+    ) {
+      return res
+        .status(409)
+        .send("Shopping article with this name and category already exists");
+    }
     const shoppingArticle = await ShoppingArticles.create({
       name: name,
       category_id: category.id,
     });
     res.status(201).json(shoppingArticle);
   } else {
+    if (
+      (await ShoppingArticles.findOne({
+        where: {
+          name,
+          category_id: category.id,
+          id: { [Op.ne]: shoppingArticle.id },
+        },
+      })) !== null
+    ) {
+      return res
+        .status(409)
+        .send("Shopping article with this name and category already exists");
+    }
     if (name) {
       shoppingArticle.name = name;
     }
@@ -94,16 +122,19 @@ router.put("/:id", async (req, res) => {
       shoppingArticle.category_id = category.id;
     }
     await shoppingArticle.save();
+    await deleteCategoryIfUnused(oldCategoryId);
     res.status(204).send();
   }
 });
 
 router.delete("/:id", async (req, res) => {
   const shoppingArticle = await ShoppingArticles.findByPk(req.params.id);
+  const categoryId = shoppingArticle.category_id;
   if (!shoppingArticle) {
     return res.status(404).send("Shopping article not found");
   }
   await shoppingArticle.destroy();
+  await deleteCategoryIfUnused(categoryId);
   res.status(204).send();
 });
 
