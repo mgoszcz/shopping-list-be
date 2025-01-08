@@ -57,6 +57,21 @@ const CurrentShop = sequelize.define(
   },
 );
 
+const LastModified = sequelize.define(
+  "LastModified",
+  {
+    last_modified: {
+      type: DataTypes.DATE,
+      allowNull: false,
+      defaultValue: new Date(),
+    },
+    table_name: { type: DataTypes.STRING, allowNull: false, primaryKey: true },
+  },
+  {
+    tableName: "LastModified",
+  },
+);
+
 // Associations
 ShoppingArticles.belongsTo(Categories, { foreignKey: "category_id" });
 ShoppingCart.belongsTo(ShoppingArticles, { foreignKey: "article_id" });
@@ -86,4 +101,5 @@ module.exports = {
   Shops,
   ShopCategories,
   CurrentShop,
+  LastModified,
 };

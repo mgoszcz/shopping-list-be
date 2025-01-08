@@ -6,6 +6,7 @@ const shoppingCart = require("./routes/shoppingCart");
 const shops = require("./routes/shops");
 const shopCategories = require("./routes/shopCategories");
 const currentShop = require("./routes/currentShop");
+const db = require("./db/db");
 
 const app = express();
 const PORT = 3000;
@@ -13,12 +14,20 @@ const PORT = 3000;
 app.use(bodyParser.json());
 
 app.use("/categories", categories);
-app.use("/shopping_articles", shoppingArticles);
-app.use("/shopping_cart", shoppingCart);
+app.use("/shoppingArticles", shoppingArticles);
+app.use("/shoppingCart", shoppingCart);
 app.use("/shops", shops);
 app.use("/shops/:id/categories", shopCategories);
-app.use("/current_shop", currentShop);
+app.use("/currentShop", currentShop);
 
-app.listen(PORT, () => {
-  console.log(`Server running on port ${PORT}`);
-});
+db.sequelize
+  .sync()
+  .then(() => {
+    app.listen(PORT, () => {
+      console.log(`Server is running on port ${PORT}`);
+    });
+  })
+  .catch((error) => {
+    console.error("Failed to start server:", error);
+    process.exit(1); // Exit with an error code
+  });

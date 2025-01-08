@@ -1,16 +1,45 @@
 const express = require("express");
 const router = express.Router();
-const { ShoppingArticles, Categories } = require("../db/db");
+const {
+  ShoppingArticles,
+  Categories,
+  ShoppingCart,
+  ShopCategories,
+} = require("../db/db");
 const { Op } = require("sequelize");
+const lastModified = require("../utils/lastModified");
+const updateLastModified = require("../utils/lastModified");
 
 const deleteCategoryIfUnused = async (categoryId) => {
   if (
     (await ShoppingArticles.findOne({ where: { category_id: categoryId } })) ===
     null
   ) {
+    await ShopCategories.findAll({ where: { category_id: categoryId } }).then(
+      (shopCategories) => {
+        for (const shopCategory of shopCategories) {
+          shopCategory.destroy();
+        }
+      },
+    );
     const category = await Categories.findByPk(categoryId);
     await category.destroy();
+    await updateLastModified("Categories");
   }
+};
+
+const deleteFromShoppingCartIfNeeded = async (shoppingArticleId) => {
+  if (
+    (await ShoppingCart.findOne({
+      where: { article_id: shoppingArticleId },
+    })) === null
+  ) {
+    return;
+  }
+  await ShoppingCart.destroy({
+    where: { article_id: shoppingArticleId },
+  });
+  await updateLastModified("ShoppingCart");
 };
 
 router.get("/", async (req, res) => {
@@ -34,7 +63,7 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   const shoppingArticle = await ShoppingArticles.findByPk(req.params.id);
   if (!shoppingArticle) {
-    res.status(404).send("Shopping article not found");
+    res.status(404).send({ message: "Shopping article not found" });
   } else {
     const transformedArticle = {
       id: shoppingArticle.id,
@@ -54,23 +83,26 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
   const { name, category } = req.body;
   if (!name || !category?.id) {
-    return res.status(400).send("Name and category ID are required");
+    return res
+      .status(400)
+      .send({ message: "Name and category ID are required" });
   }
   if ((await Categories.findByPk(category.id)) === null) {
-    return res.status(404).send("Category not found");
+    return res.status(404).send({ message: "Category not found" });
   }
   if (
     (await ShoppingArticles.findOne({
       where: { name, category_id: category.id },
     })) !== null
   ) {
-    return res.status(409).send("Shopping article already exists");
+    return res.status(409).send({ message: "Shopping article already exists" });
   }
   const shoppingArticle = await ShoppingArticles.create({
     name: name,
     category_id: category.id,
   });
   res.status(201).json(shoppingArticle);
+  await updateLastModified("ShoppingArticles");
 });
 
 router.put("/:id", async (req, res) => {
@@ -78,10 +110,12 @@ router.put("/:id", async (req, res) => {
   const oldCategoryId = shoppingArticle?.category_id;
   const { name, category } = req.body;
   if (!name || !category?.id) {
-    return res.status(400).send("Name and category ID are required");
+    return res
+      .status(400)
+      .send({ message: "Name and category ID are required" });
   }
   if ((await Categories.findByPk(category.id)) === null) {
-    return res.status(404).send("Category not found");
+    return res.status(404).send({ message: "Category not found" });
   }
   if (!shoppingArticle) {
     if (
@@ -94,7 +128,10 @@ router.put("/:id", async (req, res) => {
     ) {
       return res
         .status(409)
-        .send("Shopping article with this name and category already exists");
+        .send({
+          message:
+            "Shopping article with this name and category already exists",
+        });
     }
     const shoppingArticle = await ShoppingArticles.create({
       name: name,
@@ -113,7 +150,10 @@ router.put("/:id", async (req, res) => {
     ) {
       return res
         .status(409)
-        .send("Shopping article with this name and category already exists");
+        .send({
+          message:
+            "Shopping article with this name and category already exists",
+        });
     }
     if (name) {
       shoppingArticle.name = name;
@@ -125,17 +165,27 @@ router.put("/:id", async (req, res) => {
     await deleteCategoryIfUnused(oldCategoryId);
     res.status(204).send();
   }
+  await updateLastModified("ShoppingArticles");
 });
 
 router.delete("/:id", async (req, res) => {
   const shoppingArticle = await ShoppingArticles.findByPk(req.params.id);
-  const categoryId = shoppingArticle.category_id;
   if (!shoppingArticle) {
-    return res.status(404).send("Shopping article not found");
+    return res.status(404).send({ message: "Shopping article not found" });
   }
+  if (
+    (await ShoppingCart.findOne({
+      where: { article_id: shoppingArticle.id },
+    })) !== null
+  ) {
+    return res.status(409).send({ message: "Article in shopping cart" });
+  }
+  const categoryId = shoppingArticle.category_id;
   await shoppingArticle.destroy();
   await deleteCategoryIfUnused(categoryId);
+  await deleteFromShoppingCartIfNeeded(req.params.id);
   res.status(204).send();
+  await updateLastModified("ShoppingArticles");
 });
 
 module.exports = router;

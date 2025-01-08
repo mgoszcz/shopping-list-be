@@ -1,6 +1,8 @@
 const express = require("express");
 const router = express.Router();
 const { Shops, CurrentShop } = require("../db/db");
+const lastModified = require("../utils/lastModified");
+const updateLastModified = require("../utils/lastModified");
 
 router.get("/", async (req, res) => {
   const currentShop = await CurrentShop.findByPk(1);
@@ -28,6 +30,7 @@ router.put("/", async (req, res) => {
   await CurrentShop.destroy({ where: {} });
   await CurrentShop.create({ shop_id });
   res.status(204).send();
+  await updateLastModified("CurrentShop");
 });
 
 module.exports = router;

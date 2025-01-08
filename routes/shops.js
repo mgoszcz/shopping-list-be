@@ -2,6 +2,7 @@ const express = require("express");
 const router = express.Router();
 const { Shops, CurrentShop } = require("../db/db");
 const { Op } = require("sequelize");
+const updateLastModified = require("../utils/lastModified");
 
 router.get("/", async (req, res) => {
   const shops = await Shops.findAll();
@@ -34,6 +35,7 @@ router.post("/", async (req, res) => {
   }
   const shop = await Shops.create(req.body);
   res.status(201).json(shop);
+  await updateLastModified("Shops");
 });
 
 router.put("/:id", async (req, res) => {
@@ -60,6 +62,7 @@ router.put("/:id", async (req, res) => {
     await shop.save();
     res.status(204).send();
   }
+  await updateLastModified("Shops");
 });
 
 router.delete("/:id", async (req, res) => {
@@ -73,6 +76,7 @@ router.delete("/:id", async (req, res) => {
     await CurrentShop.destroy({ where: { id: 1 } });
   }
   res.status(204).send();
+  await updateLastModified("Shops");
 });
 
 module.exports = router;

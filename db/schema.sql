@@ -35,4 +35,9 @@ CREATE TABLE ShopCategories (
 CREATE TABLE CurrentShop (
                                 id INT PRIMARY KEY DEFAULT 1,
                                 shop_id INT NOT NULL REFERENCES shops(id)
-)
+);
+
+CREATE TABLE last_modified (
+                               table_name TEXT PRIMARY KEY,
+                               last_modified TIMESTAMP DEFAULT CURRENT_TIMESTAMP
+);

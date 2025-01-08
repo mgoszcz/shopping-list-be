@@ -8,6 +8,7 @@ const {
   ShopCategories,
   sequelize,
 } = require("../db/db");
+const updateLastModified = require("../utils/lastModified");
 
 const sortingOrders = {
   BY_SHOP: "byShop",
@@ -127,8 +128,12 @@ router.post("/", async (req, res) => {
     quantity: 1,
     checked: false,
   });
-  // TODO add incrementing selection number
+  await ShoppingArticles.increment("selection", {
+    by: 1,
+    where: { id: article.id },
+  });
   res.status(201).json(shoppingCartItem);
+  await updateLastModified("ShoppingCart");
 });
 
 router.put("/:id", async (req, res) => {
@@ -145,6 +150,7 @@ router.put("/:id", async (req, res) => {
   }
   await shoppingCartItem.save();
   res.status(204).send();
+  await updateLastModified("ShoppingCart");
 });
 
 router.delete("/:id", async (req, res) => {
@@ -152,7 +158,12 @@ router.delete("/:id", async (req, res) => {
   if (!shoppingCartItem) {
     return res.status(404).send("Shopping cart item not found");
   }
-  // TODO add decrementing selection number if unchecked
+  if (!shoppingCartItem.checked) {
+    await ShoppingArticles.decrement("selection", {
+      by: 1,
+      where: { id: shoppingCartItem.article_id },
+    });
+  }
   await shoppingCartItem.destroy();
   const all_items = await ShoppingCart.findAll();
   if (all_items.length === 0) {
@@ -161,6 +172,7 @@ router.delete("/:id", async (req, res) => {
     );
   }
   res.status(204).send();
+  await updateLastModified("ShoppingCart");
 });
 
 router.delete("/", async (req, res) => {
@@ -171,8 +183,24 @@ router.delete("/", async (req, res) => {
   if (checked) {
     await ShoppingCart.destroy({ where: { checked: true } });
   } else if (unchecked) {
+    for (const item of await ShoppingCart.findAll({
+      where: { checked: false },
+    })) {
+      await ShoppingArticles.decrement("selection", {
+        by: 1,
+        where: { id: item.article_id },
+      });
+    }
     await ShoppingCart.destroy({ where: { checked: false } });
   } else {
+    for (const item of await ShoppingCart.findAll({
+      where: { checked: false },
+    })) {
+      await ShoppingArticles.decrement("selection", {
+        by: 1,
+        where: { id: item.article_id },
+      });
+    }
     await ShoppingCart.destroy({ where: {} });
   }
   // TODO add decrementing selection number if unchecked
@@ -184,6 +212,7 @@ router.delete("/", async (req, res) => {
     );
   }
   res.status(204).send();
+  await updateLastModified("ShoppingCart");
 });
 
 module.exports = router;
