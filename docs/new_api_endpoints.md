@@ -434,19 +434,38 @@ updates current selected shop
 - 400 - Bad request
 - 404 - Not found (shop not found)
 
-# /last_change_timestamp
+# /lastModifiedTimestamp
 
 ## this endpoint will provide an access to timestamp of last change in database.
 
-`GET /last_change_timestamp`
+`GET /lastModifiedTimestamp`
 returns timestamp of last change for each table in database
 
 ```json
 {
-  "shopping_articles": 123456789.898,
-  "shopping_cart": 123456789.898,
-  "categories": 123456789.898,
-  "shops": 123456789.898,
-  "current_shop": 123456789.898
+  "Categories": "2025-01-07T13:19:51.844Z",
+  "Shops": "2025-01-07T13:19:51.851Z",
+  "ShopCategories": "2025-01-07T13:19:51.859Z",
+  "ShoppingArticles": "2025-01-07T13:19:51.866Z",
+  "CurrentShop": "2025-01-07T13:19:51.872Z"
 }
 ```
+
+### Responses
+- 200 - OK
+
+`GET /lastModifiedTimestamp/:table`
+returns timestamp of last change for specific table in database
+
+```json
+{
+    "last_modified": "2025-01-07T13:19:51.844Z",
+    "table_name": "Categories",
+    "createdAt": "2025-01-07T13:19:51.844Z",
+    "updatedAt": "2025-01-07T13:19:51.844Z"
+}
+```
+
+### Responses
+- 200 - OK
+- 404 - Not found

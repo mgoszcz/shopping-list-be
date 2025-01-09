@@ -8,13 +8,13 @@ const TEST_DB = "./tests/assets/test_database.sqlite";
 
 beforeEach((done) => {
   if (fs.existsSync(DB_PATH)) {
-    console.log("Removing DB file");
+    // console.log("Removing DB file");
     fs.unlinkSync(DB_PATH);
   }
-  console.log("Copy test database");
+  // console.log("Copy test database");
   fs.copyFileSync(TEST_DB, DB_PATH);
 
-  console.log("Start server");
+  // console.log("Start server");
   // Start the server
   global.serverProcess = exec("node index.js", {});
 

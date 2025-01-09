@@ -72,7 +72,9 @@ describe("Shopping Articles endpoint", () => {
       // If the request doesn't throw, the test should fail
       throw new Error("Expected request to fail with 404, but it succeeded.");
     } catch (error) {
-      // Verify the error response
+      if (!error.response) {
+        throw error;
+      }
       expect(error.response.status).toBe(404);
       expect(error.response.data.message).toEqual("Shopping article not found");
     }
@@ -114,6 +116,9 @@ describe("Shopping Articles endpoint", () => {
       await axios.post(shoppingArticlesEndpoint);
       throw new Error("Expected request to fail with 400, but it succeeded.");
     } catch (error) {
+      if (!error.response) {
+        throw error;
+      }
       expect(error.response.status).toBe(400);
       expect(error.response.data.message).toEqual(
         "Name and category ID are required",
@@ -131,6 +136,9 @@ describe("Shopping Articles endpoint", () => {
       });
       throw new Error("Expected request to fail with 404, but it succeeded.");
     } catch (error) {
+      if (!error.response) {
+        throw error;
+      }
       expect(error.response.status).toBe(404);
       expect(error.response.data.message).toEqual("Category not found");
     }
@@ -146,6 +154,9 @@ describe("Shopping Articles endpoint", () => {
       });
       throw new Error("Expected request to fail with 409, but it succeeded.");
     } catch (error) {
+      if (!error.response) {
+        throw error;
+      }
       expect(error.response.status).toBe(409);
       expect(error.response.data.message).toEqual(
         "Shopping article already exists",
@@ -200,6 +211,9 @@ describe("Shopping Articles endpoint", () => {
       await axios.put(`${shoppingArticlesEndpoint}/1`);
       throw new Error("Expected request to fail with 400, but it succeeded.");
     } catch (error) {
+      if (!error.response) {
+        throw error;
+      }
       expect(error.response.status).toBe(400);
       expect(error.response.data.message).toEqual(
         "Name and category ID are required",
@@ -217,6 +231,9 @@ describe("Shopping Articles endpoint", () => {
       });
       throw new Error("Expected request to fail with 404, but it succeeded.");
     } catch (error) {
+      if (!error.response) {
+        throw error;
+      }
       expect(error.response.status).toBe(404);
       expect(error.response.data.message).toEqual("Category not found");
     }
@@ -232,6 +249,9 @@ describe("Shopping Articles endpoint", () => {
       });
       throw new Error("Expected request to fail with 409, but it succeeded.");
     } catch (error) {
+      if (!error.response) {
+        throw error;
+      }
       expect(error.response.status).toBe(409);
       expect(error.response.data.message).toEqual(
         "Shopping article with this name and category already exists",
@@ -268,6 +288,9 @@ describe("Shopping Articles endpoint", () => {
       await axios.delete(`${shoppingArticlesEndpoint}/100`);
       throw new Error("Expected request to fail with 404, but it succeeded.");
     } catch (error) {
+      if (!error.response) {
+        throw error;
+      }
       expect(error.response.status).toBe(404);
       expect(error.response.data.message).toEqual("Shopping article not found");
     }
@@ -289,6 +312,9 @@ describe("Shopping Articles endpoint", () => {
       await axios.delete(`${shoppingArticlesEndpoint}/3`);
       throw new Error("Expected request to fail with 409, but it succeeded.");
     } catch (error) {
+      if (!error.response) {
+        throw error;
+      }
       expect(error.response.status).toBe(409);
       expect(error.response.data.message).toEqual("Article in shopping cart");
     }

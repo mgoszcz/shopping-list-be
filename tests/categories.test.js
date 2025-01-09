@@ -30,7 +30,9 @@ describe("Categories endpoint", () => {
       // If the request doesn't throw, the test should fail
       throw new Error("Expected request to fail with 404, but it succeeded.");
     } catch (error) {
-      // Verify the error response
+      if (!error.response) {
+        throw error;
+      }
       expect(error.response.status).toBe(404);
       expect(error.response.data.message).toEqual("Category not found");
     }
@@ -50,7 +52,9 @@ describe("Categories endpoint", () => {
       const response = await axios.post(categoriesEndpoint);
       throw new Error("Expected request to fail with 400, but it succeeded.");
     } catch (error) {
-      // Verify the error response
+      if (!error.response) {
+        throw error;
+      }
       expect(error.response.status).toBe(400);
       expect(error.response.data.message).toEqual("Name is required");
     }
@@ -61,7 +65,9 @@ describe("Categories endpoint", () => {
       const response = await axios.post(categoriesEndpoint, { name: "alpha" });
       throw new Error("Expected request to fail with 409, but it succeeded.");
     } catch (error) {
-      // Verify the error response
+      if (!error.response) {
+        throw error;
+      }
       expect(error.response.status).toBe(409);
       expect(error.response.data.message).toEqual("Category already exists");
     }

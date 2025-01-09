@@ -6,9 +6,8 @@ const updateLastModified = require("../utils/lastModified");
 
 router.get("/", async (req, res) => {
   const shop = await Shops.findByPk(req.params.id);
-  console.log(req.params.id);
   if (!shop) {
-    return res.status(404).send("Shop not found");
+    return res.status(404).send({ message: "Shop not found" });
   }
   const shopCategories = await ShopCategories.findAll({
     where: {
@@ -33,8 +32,11 @@ router.get("/", async (req, res) => {
 });
 
 router.put("/", async (req, res) => {
+  const shop = await Shops.findByPk(req.params.id);
+  if (!shop) {
+    return res.status(404).send({ message: "Shop not found" });
+  }
   const shopCategories = req.body;
-  console.log(shopCategories);
   if (!shopCategories || shopCategories.length === 0) {
     await ShopCategories.destroy({
       where: {
@@ -46,15 +48,23 @@ router.put("/", async (req, res) => {
   }
   for (const shopCategory of shopCategories) {
     if (!shopCategory.category || !shopCategory.category.id) {
-      return res.status(400).send("Category ID is required");
+      return res.status(400).send({ message: "Category ID is required" });
     }
     if (!shopCategory.category_order) {
-      return res.status(400).send("Category order is required");
+      return res.status(400).send({ message: "Category order is required" });
     }
     if ((await Categories.findByPk(shopCategory.category.id)) === null) {
-      return res
-        .status(404)
-        .send(`Category with ID ${shopCategory.category.id} not found`);
+      return res.status(404).send({
+        message: `Category with ID ${shopCategory.category.id} not found`,
+      });
+    }
+    if (
+      shopCategories.filter((sc) => sc.category.id === shopCategory.category.id)
+        .length > 1
+    ) {
+      return res.status(400).send({
+        message: `Category with ID ${shopCategory.category.id} is duplicated`,
+      });
     }
   }
   await ShopCategories.destroy({

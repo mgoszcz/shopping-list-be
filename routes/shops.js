@@ -1,6 +1,6 @@
 const express = require("express");
 const router = express.Router();
-const { Shops, CurrentShop } = require("../db/db");
+const { Shops, CurrentShop, ShopCategories } = require("../db/db");
 const { Op } = require("sequelize");
 const updateLastModified = require("../utils/lastModified");
 
@@ -19,7 +19,7 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   const shop = await Shops.findByPk(req.params.id);
   if (!shop) {
-    res.status(404).send("Shop not found");
+    res.status(404).send({ message: "Shop not found" });
   } else {
     res.json(shop);
   }
@@ -28,10 +28,10 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
   const { name, logo } = req.body;
   if (!name || !logo) {
-    return res.status(400).send("Name and logo is required");
+    return res.status(400).send({ message: "Name and logo is required" });
   }
   if ((await Shops.findOne({ where: { name } })) !== null) {
-    return res.status(409).send("Shop already exists");
+    return res.status(409).send({ message: "Shop already exists" });
   }
   const shop = await Shops.create(req.body);
   res.status(201).json(shop);
@@ -42,11 +42,11 @@ router.put("/:id", async (req, res) => {
   const shop = await Shops.findByPk(req.params.id);
   const { name, logo } = req.body;
   if (!name || !logo) {
-    return res.status(400).send("Name and logo is required");
+    return res.status(400).send({ message: "Name and logo is required" });
   }
   if (!shop) {
     if ((await Shops.findOne({ where: { name } })) !== null) {
-      return res.status(409).send("Shop already exists");
+      return res.status(409).send({ message: "Shop already exists" });
     }
     const shop = await Shops.create(req.body);
     res.status(201).json(shop);
@@ -55,7 +55,7 @@ router.put("/:id", async (req, res) => {
       (await Shops.findOne({ where: { name, id: { [Op.ne]: shop.id } } })) !==
       null
     ) {
-      return res.status(409).send("Shop already exists");
+      return res.status(409).send({ message: "Shop already exists" });
     }
     shop.name = name;
     shop.logo = logo;
@@ -69,8 +69,9 @@ router.delete("/:id", async (req, res) => {
   const shopId = req.params.id;
   const shop = await Shops.findByPk(shopId);
   if (!shop) {
-    return res.status(404).send("Shop not found");
+    return res.status(404).send({ message: "Shop not found" });
   }
+  await ShopCategories.destroy({ where: { shop_id: shopId } });
   await shop.destroy();
   if ((await CurrentShop.findByPk(1).shop_id) === shopId) {
     await CurrentShop.destroy({ where: { id: 1 } });

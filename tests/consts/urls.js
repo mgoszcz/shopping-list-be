@@ -7,6 +7,7 @@ const shopCategoriesEndpoint = (shopId) =>
   `${baseUrl}/shops/${shopId}/categories`;
 const shoppingArticlesEndpoint = `${baseUrl}/shoppingArticles`;
 const shoppingCartEndpoint = `${baseUrl}/shoppingCart`;
+const lastModifiedTimestampEndpoint = `${baseUrl}/lastModifiedTimestamp`;
 
 module.exports = {
   categoriesEndpoint,
@@ -15,4 +16,5 @@ module.exports = {
   shopCategoriesEndpoint,
   shoppingArticlesEndpoint,
   shoppingCartEndpoint,
+  lastModifiedTimestampEndpoint,
 };

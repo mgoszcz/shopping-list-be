@@ -6,6 +6,7 @@ const shoppingCart = require("./routes/shoppingCart");
 const shops = require("./routes/shops");
 const shopCategories = require("./routes/shopCategories");
 const currentShop = require("./routes/currentShop");
+const lastModifiedTimestamp = require("./routes/lastModifiedTimestamp");
 const db = require("./db/db");
 
 const app = express();
@@ -19,6 +20,7 @@ app.use("/shoppingCart", shoppingCart);
 app.use("/shops", shops);
 app.use("/shops/:id/categories", shopCategories);
 app.use("/currentShop", currentShop);
+app.use("/lastModifiedTimestamp", lastModifiedTimestamp);
 
 db.sequelize
   .sync()

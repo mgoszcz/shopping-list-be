@@ -66,7 +66,7 @@ router.get("/", async (req, res) => {
       a.article.name.localeCompare(b.article.name),
     );
   } else {
-    return res.status(400).send("Invalid sorting order");
+    return res.status(400).send({ message: "Invalid sorting order" });
   }
   if (checkedOnly) {
     transformedShoppingCartItems = transformedShoppingCartItems.filter(
@@ -84,7 +84,7 @@ router.get("/", async (req, res) => {
 router.get("/:id", async (req, res) => {
   const shoppingCartItem = await ShoppingCart.findByPk(req.params.id);
   if (!shoppingCartItem) {
-    res.status(404).send("Shopping cart item not found");
+    res.status(404).send({ message: "Shopping cart item not found" });
   } else {
     const shoppingArticle = await ShoppingArticles.findByPk(
       shoppingCartItem.article_id,
@@ -111,17 +111,19 @@ router.get("/:id", async (req, res) => {
 router.post("/", async (req, res) => {
   const { article } = req.body;
   if (!article?.id) {
-    return res.status(400).send("Article ID is required");
+    return res.status(400).send({ message: "Article ID is required" });
   }
   if ((await ShoppingArticles.findByPk(article.id)) === null) {
-    return res.status(404).send("Article not found");
+    return res.status(404).send({ message: "Article not found" });
   }
   if (
     (await ShoppingCart.findOne({
       where: { article_id: article.id },
     })) !== null
   ) {
-    return res.status(409).send("Article already in shopping cart");
+    return res
+      .status(409)
+      .send({ message: "Article already in shopping cart" });
   }
   const shoppingCartItem = await ShoppingCart.create({
     article_id: article.id,
@@ -139,7 +141,7 @@ router.post("/", async (req, res) => {
 router.put("/:id", async (req, res) => {
   const shoppingCartItem = await ShoppingCart.findByPk(req.params.id);
   if (!shoppingCartItem) {
-    return res.status(404).send("Shopping cart item not found");
+    return res.status(404).send({ message: "Shopping cart item not found" });
   }
   const { quantity, checked } = req.body;
   if (quantity !== undefined) {
@@ -156,7 +158,7 @@ router.put("/:id", async (req, res) => {
 router.delete("/:id", async (req, res) => {
   const shoppingCartItem = await ShoppingCart.findByPk(req.params.id);
   if (!shoppingCartItem) {
-    return res.status(404).send("Shopping cart item not found");
+    return res.status(404).send({ message: "Shopping cart item not found" });
   }
   if (!shoppingCartItem.checked) {
     await ShoppingArticles.decrement("selection", {
@@ -178,7 +180,9 @@ router.delete("/:id", async (req, res) => {
 router.delete("/", async (req, res) => {
   const { checked, unchecked } = req.query;
   if (checked && unchecked) {
-    return res.status(400).send("Cannot specify both checked and unchecked");
+    return res
+      .status(400)
+      .send({ message: "Cannot use both checked and unchecked parameters" });
   }
   if (checked) {
     await ShoppingCart.destroy({ where: { checked: true } });
@@ -203,7 +207,6 @@ router.delete("/", async (req, res) => {
     }
     await ShoppingCart.destroy({ where: {} });
   }
-  // TODO add decrementing selection number if unchecked
   const all_items = await ShoppingCart.findAll();
   console.log(all_items);
   if (all_items.length === 0) {
