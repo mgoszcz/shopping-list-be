@@ -37,6 +37,9 @@ router.put("/", async (req, res) => {
     return res.status(404).send({ message: "Shop not found" });
   }
   const shopCategories = req.body;
+  if (!Array.isArray(shopCategories)) {
+    return res.status(400).send({ message: "Array of categories is required" });
+  }
   if (!shopCategories || shopCategories.length === 0) {
     await ShopCategories.destroy({
       where: {

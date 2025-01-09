@@ -71,11 +71,15 @@ router.delete("/:id", async (req, res) => {
   if (!shop) {
     return res.status(404).send({ message: "Shop not found" });
   }
-  await ShopCategories.destroy({ where: { shop_id: shopId } });
-  await shop.destroy();
-  if ((await CurrentShop.findByPk(1).shop_id) === shopId) {
-    await CurrentShop.destroy({ where: { id: 1 } });
+  if ((await ShopCategories.findOne({ where: { shop_id: shopId } })) !== null) {
+    await ShopCategories.destroy({ where: { shop_id: shopId } });
+    await updateLastModified("ShopCategories");
   }
+  if ((await CurrentShop.findOne({ where: { shop_id: shopId } })) !== null) {
+    await CurrentShop.destroy({ where: { id: 1 } });
+    await updateLastModified("CurrentShop");
+  }
+  await shop.destroy();
   res.status(204).send();
   await updateLastModified("Shops");
 });

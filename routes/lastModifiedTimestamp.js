@@ -18,7 +18,13 @@ router.get("/:table_name", async (req, res) => {
   if (!lastModified) {
     return res.status(404).send({ message: "This table name was not found" });
   }
-  res.json(lastModified);
+  const transformedLastModified = {
+    tableName: lastModified.table_name,
+    lastModified: lastModified.last_modified,
+    createdAt: lastModified.createdAt,
+    updatedAt: lastModified.updatedAt,
+  };
+  res.json(transformedLastModified);
 });
 
 module.exports = router;

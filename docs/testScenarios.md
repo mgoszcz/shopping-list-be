@@ -106,8 +106,10 @@
 6. Shop Categories
   - updating shop categories will update last modified date
   - removing shop using categories will update last modified date
+  - removing category used in shop categories will update last modified date
 7. Current Shop
   - updating current shop will update last modified date
+  - clearing current shop after shop removal will update last modified date
 8. Shopping Cart
   - adding new item to shopping cart will update last modified date
   - removing item from shopping cart will update last modified date

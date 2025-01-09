@@ -20,6 +20,7 @@ const deleteCategoryIfUnused = async (categoryId) => {
         for (const shopCategory of shopCategories) {
           shopCategory.destroy();
         }
+        updateLastModified("ShopCategories");
       },
     );
     const category = await Categories.findByPk(categoryId);
@@ -126,12 +127,9 @@ router.put("/:id", async (req, res) => {
         },
       })) !== null
     ) {
-      return res
-        .status(409)
-        .send({
-          message:
-            "Shopping article with this name and category already exists",
-        });
+      return res.status(409).send({
+        message: "Shopping article with this name and category already exists",
+      });
     }
     const shoppingArticle = await ShoppingArticles.create({
       name: name,
@@ -148,12 +146,9 @@ router.put("/:id", async (req, res) => {
         },
       })) !== null
     ) {
-      return res
-        .status(409)
-        .send({
-          message:
-            "Shopping article with this name and category already exists",
-        });
+      return res.status(409).send({
+        message: "Shopping article with this name and category already exists",
+      });
     }
     if (name) {
       shoppingArticle.name = name;

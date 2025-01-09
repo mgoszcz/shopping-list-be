@@ -40,9 +40,12 @@ router.get("/", async (req, res) => {
     });
   }
   if (sortingOrder === sortingOrders.BY_SHOP) {
+    const currentShopId = (await CurrentShop.findOne())
+      ? (await CurrentShop.findOne()).shop_id
+      : null;
     const sortedCategories = (
       await ShopCategories.findAll({
-        where: { shop_id: (await CurrentShop.findOne()).shop_id },
+        where: { shop_id: currentShopId },
       })
     )
       .sort((a, b) => a.category_order - b.category_order)

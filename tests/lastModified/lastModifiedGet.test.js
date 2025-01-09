@@ -21,8 +21,8 @@ describe("Last modified endpoint GET", () => {
     );
     expect(response.status).toBe(200);
     expect(response.data).toEqual({
-      last_modified: "2025-01-07T13:19:51.844Z",
-      table_name: "Categories",
+      lastModified: "2025-01-07T13:19:51.844Z",
+      tableName: "Categories",
       createdAt: "2025-01-07T13:19:51.844Z",
       updatedAt: "2025-01-07T13:19:51.844Z",
     });
@@ -32,8 +32,8 @@ describe("Last modified endpoint GET", () => {
     const response = await axios.get(`${lastModifiedTimestampEndpoint}/Shops`);
     expect(response.status).toBe(200);
     expect(response.data).toEqual({
-      last_modified: "2025-01-07T13:19:51.851Z",
-      table_name: "Shops",
+      lastModified: "2025-01-07T13:19:51.851Z",
+      tableName: "Shops",
       createdAt: "2025-01-07T13:19:51.851Z",
       updatedAt: "2025-01-07T13:19:51.851Z",
     });
@@ -45,8 +45,8 @@ describe("Last modified endpoint GET", () => {
     );
     expect(response.status).toBe(200);
     expect(response.data).toEqual({
-      last_modified: "2025-01-07T13:19:51.859Z",
-      table_name: "ShopCategories",
+      lastModified: "2025-01-07T13:19:51.859Z",
+      tableName: "ShopCategories",
       createdAt: "2025-01-07T13:19:51.859Z",
       updatedAt: "2025-01-07T13:19:51.859Z",
     });
@@ -58,8 +58,8 @@ describe("Last modified endpoint GET", () => {
     );
     expect(response.status).toBe(200);
     expect(response.data).toEqual({
-      last_modified: "2025-01-07T13:19:51.866Z",
-      table_name: "ShoppingArticles",
+      lastModified: "2025-01-07T13:19:51.866Z",
+      tableName: "ShoppingArticles",
       createdAt: "2025-01-07T13:19:51.866Z",
       updatedAt: "2025-01-07T13:19:51.866Z",
     });
@@ -71,8 +71,8 @@ describe("Last modified endpoint GET", () => {
     );
     expect(response.status).toBe(200);
     expect(response.data).toEqual({
-      last_modified: "2025-01-07T13:19:51.872Z",
-      table_name: "CurrentShop",
+      lastModified: "2025-01-07T13:19:51.872Z",
+      tableName: "CurrentShop",
       createdAt: "2025-01-07T13:19:51.872Z",
       updatedAt: "2025-01-07T13:19:51.872Z",
     });

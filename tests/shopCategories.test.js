@@ -193,6 +193,26 @@ describe("Shop categories endpoint", () => {
     }
   });
 
+  test("PUT /shops/:shopId/categories should return 400 if data is nto an array", async () => {
+    try {
+      await axios.put(shopCategoriesEndpoint(1), {
+        category: {
+          id: 1,
+        },
+        category_order: 1,
+      });
+      throw new Error("Expected request to fail with 400, but it succeeded.");
+    } catch (error) {
+      if (!error.response) {
+        throw error;
+      }
+      expect(error.response.status).toBe(400);
+      expect(error.response.data.message).toEqual(
+        "Array of categories is required",
+      );
+    }
+  });
+
   test("PUT /shops/:shopId/categories should return 404 if category not found", async () => {
     try {
       await axios.put(shopCategoriesEndpoint(1), [
