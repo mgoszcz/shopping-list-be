@@ -115,4 +115,3 @@
   - removing item from shopping cart will update last modified date
   - updating item in shopping cart will update last modified date
   - removing all items from shopping cart will update last modified date
-  - removing item due to article removal will update last modified date
