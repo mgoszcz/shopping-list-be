@@ -11,11 +11,6 @@ const sequelize = new Sequelize({
   logging: console.log,
 });
 
-console.log("SQLite path:", sequelize.options.storage);
-
-// PostgreSQL example
-// const sequelize = new Sequelize("postgres://user:password@localhost:5432/mydb");
-
 const Shops = sequelize.define("Shops", {
   name: { type: DataTypes.STRING, allowNull: false },
   logo: { type: DataTypes.STRING, allowNull: false },
@@ -90,7 +85,6 @@ CurrentShop.belongsTo(Shops, { foreignKey: "shop_id" });
 // Sync database
 (async () => {
   await sequelize.sync();
-  console.log("Database synced");
 })();
 
 module.exports = {

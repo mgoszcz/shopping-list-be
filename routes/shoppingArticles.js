@@ -7,7 +7,6 @@ const {
   ShopCategories,
 } = require("../db/db");
 const { Op } = require("sequelize");
-const lastModified = require("../utils/lastModified");
 const updateLastModified = require("../utils/lastModified");
 
 const deleteCategoryIfUnused = async (categoryId) => {
