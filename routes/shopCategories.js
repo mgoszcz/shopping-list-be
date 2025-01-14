@@ -45,7 +45,7 @@ router.put("/", async (req, res) => {
         shop_id: req.params.id,
       },
     });
-    await updateLastModified("ShopCategories");
+    await updateLastModified("shop_categories");
     return res.status(204).send();
   }
   for (const shopCategory of shopCategories) {
@@ -82,7 +82,7 @@ router.put("/", async (req, res) => {
     });
   }
   res.status(204).send();
-  await updateLastModified("ShopCategories");
+  await updateLastModified("shop_categories");
 });
 
 module.exports = router;

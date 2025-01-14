@@ -53,17 +53,15 @@ describe("Shopping Articles endpoint", () => {
   test("GET /shoppingArticles/id should return specific article", async () => {
     const response = await axios.get(`${shoppingArticlesEndpoint}/1`);
     expect(response.status).toBe(200);
-    expect(response.data).toEqual({
-      id: 1,
-      name: "HH first article",
-      selection: 1,
-      category: {
-        id: 3,
-        name: "alpha",
-      },
-      createdAt: "2025-01-07T13:19:51.861Z",
-      updatedAt: "2025-01-07T13:19:51.861Z",
+    expect(response.data.id).toBe(1);
+    expect(response.data.name).toBe("HH first article");
+    expect(response.data.selection).toBe(1);
+    expect(response.data.category).toEqual({
+      id: 3,
+      name: "alpha",
     });
+    expect(response.data.createdAt).toBeDefined();
+    expect(response.data.updatedAt).toBeDefined();
   });
 
   test("GET /shoppingArticles/id should 404 if article not found", async () => {

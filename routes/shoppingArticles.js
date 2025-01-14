@@ -19,12 +19,12 @@ const deleteCategoryIfUnused = async (categoryId) => {
         for (const shopCategory of shopCategories) {
           shopCategory.destroy();
         }
-        updateLastModified("ShopCategories");
+        updateLastModified("shop_categories");
       },
     );
     const category = await Categories.findByPk(categoryId);
     await category.destroy();
-    await updateLastModified("Categories");
+    await updateLastModified("categories");
   }
 };
 
@@ -39,7 +39,7 @@ const deleteFromShoppingCartIfNeeded = async (shoppingArticleId) => {
   await ShoppingCart.destroy({
     where: { article_id: shoppingArticleId },
   });
-  await updateLastModified("ShoppingCart");
+  await updateLastModified("shopping_cart");
 };
 
 router.get("/", async (req, res) => {
@@ -102,7 +102,7 @@ router.post("/", async (req, res) => {
     category_id: category.id,
   });
   res.status(201).json(shoppingArticle);
-  await updateLastModified("ShoppingArticles");
+  await updateLastModified("shopping_articles");
 });
 
 router.put("/:id", async (req, res) => {
@@ -159,7 +159,7 @@ router.put("/:id", async (req, res) => {
     await deleteCategoryIfUnused(oldCategoryId);
     res.status(204).send();
   }
-  await updateLastModified("ShoppingArticles");
+  await updateLastModified("shopping_articles");
 });
 
 router.delete("/:id", async (req, res) => {
@@ -179,7 +179,7 @@ router.delete("/:id", async (req, res) => {
   await deleteCategoryIfUnused(categoryId);
   await deleteFromShoppingCartIfNeeded(req.params.id);
   res.status(204).send();
-  await updateLastModified("ShoppingArticles");
+  await updateLastModified("shopping_articles");
 });
 
 module.exports = router;

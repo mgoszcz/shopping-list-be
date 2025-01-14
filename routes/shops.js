@@ -35,7 +35,7 @@ router.post("/", async (req, res) => {
   }
   const shop = await Shops.create(req.body);
   res.status(201).json(shop);
-  await updateLastModified("Shops");
+  await updateLastModified("shops");
 });
 
 router.put("/:id", async (req, res) => {
@@ -62,7 +62,7 @@ router.put("/:id", async (req, res) => {
     await shop.save();
     res.status(204).send();
   }
-  await updateLastModified("Shops");
+  await updateLastModified("shops");
 });
 
 router.delete("/:id", async (req, res) => {
@@ -73,15 +73,15 @@ router.delete("/:id", async (req, res) => {
   }
   if ((await ShopCategories.findOne({ where: { shop_id: shopId } })) !== null) {
     await ShopCategories.destroy({ where: { shop_id: shopId } });
-    await updateLastModified("ShopCategories");
+    await updateLastModified("shop_categories");
   }
   if ((await CurrentShop.findOne({ where: { shop_id: shopId } })) !== null) {
     await CurrentShop.destroy({ where: { id: 1 } });
-    await updateLastModified("CurrentShop");
+    await updateLastModified("current_shop");
   }
   await shop.destroy();
   res.status(204).send();
-  await updateLastModified("Shops");
+  await updateLastModified("shops");
 });
 
 module.exports = router;
