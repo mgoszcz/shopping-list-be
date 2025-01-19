@@ -6,4 +6,4 @@ beforeEach(async () => {
   const shop = await axios.get(currentShopEndpoint);
   console.log("Current shop:", shop.data);
   await seedDatabase();
-});
+}, 30000);

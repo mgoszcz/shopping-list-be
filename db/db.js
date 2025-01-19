@@ -1,12 +1,31 @@
 const path = require("path");
 const { Sequelize, DataTypes } = require("sequelize");
 
-const storagePath = path.resolve(__dirname, "./database.sqlite");
+require("dotenv").config();
+
+console.log(process.env.HOST_NAME);
+
+const hostname = process.env.HOST_NAME || "localhost";
+const userName = process.env.USER_NAME || "Gosz375781";
+const databaseName = process.env.DATABASE_NAME || "shoppingList";
+const password = process.env.PASSWORD || "";
+
+let dialectOptions = {};
+
+if (hostname !== "localhost") {
+  dialectOptions = {
+    ssl: {
+      require: true,
+      rejectUnauthorized: false,
+    },
+  };
+}
 
 // SQLite example
-const sequelize = new Sequelize("shoppingList", "Gosz375781", "", {
-  host: "localhost", // or the cloud database host
+const sequelize = new Sequelize(databaseName, userName, password, {
+  host: hostname, // or the cloud database host
   dialect: "postgres",
+  dialectOptions: dialectOptions,
 });
 
 const Shops = sequelize.define(
