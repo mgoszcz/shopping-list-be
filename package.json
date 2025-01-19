@@ -7,13 +7,15 @@
     "doc": "docs"
   },
   "scripts": {
-    "test": "jest --runInBand"
+    "test": "jest --runInBand",
+    "start": "node index.js",
+    "build": "echo \"No build step\""
   },
   "jest": {
-    "globalSetup": "./tests/assets/jest.setup.js",
-    "globalTeardown": "./tests/assets/jest.teardown.js",
     "testEnvironment": "node",
-    "setupFilesAfterEnv": ["<rootDir>/tests/assets/setupTests.js"]
+    "setupFilesAfterEnv": [
+      "<rootDir>/tests/assets/setupTests.js"
+    ]
   },
   "keywords": [],
   "author": "",
@@ -21,7 +23,9 @@
   "dependencies": {
     "axios": "^1.7.9",
     "body-parser": "^1.20.3",
+    "dotenv": "^16.4.7",
     "express": "^4.21.2",
+    "pg": "^8.13.1",
     "prettier": "^3.4.2",
     "sequelize": "^6.37.5",
     "sqlite3": "^5.1.7",

@@ -33,7 +33,7 @@ router.put("/", async (req, res) => {
   await CurrentShop.destroy({ where: {} });
   await CurrentShop.create({ shop_id });
   res.status(204).send();
-  await updateLastModified("CurrentShop");
+  await updateLastModified("current_shop");
 });
 
 module.exports = router;

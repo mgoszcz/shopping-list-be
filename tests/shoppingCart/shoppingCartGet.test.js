@@ -98,21 +98,19 @@ describe("Shopping cart endpoint GET", () => {
   test("GET /shoppingCart/id should return specific product", async () => {
     const response = await axios.get(`${shoppingCartEndpoint}/1`);
     expect(response.status).toBe(200);
-    expect(response.data).toEqual({
-      id: 1,
-      article: {
-        id: 3,
-        name: "ZZ third article",
-      },
-      category: {
-        id: 1,
-        name: "beta",
-      },
-      quantity: 2,
-      checked: true,
-      createdAt: "2025-01-07T13:19:51.867Z",
-      updatedAt: "2025-01-07T13:19:51.867Z",
+    expect(response.data.id).toBe(1);
+    expect(response.data.article).toEqual({
+      id: 3,
+      name: "ZZ third article",
     });
+    expect(response.data.category).toEqual({
+      id: 1,
+      name: "beta",
+    });
+    expect(response.data.quantity).toBe(2);
+    expect(response.data.checked).toBe(true);
+    expect(response.data.createdAt).toBeDefined();
+    expect(response.data.updatedAt).toBeDefined();
   });
 
   test("GET /shoppingCart/id should return 404 if product not found", async () => {

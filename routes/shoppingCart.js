@@ -138,7 +138,7 @@ router.post("/", async (req, res) => {
     where: { id: article.id },
   });
   res.status(201).json(shoppingCartItem);
-  await updateLastModified("ShoppingCart");
+  await updateLastModified("shopping_cart");
 });
 
 router.put("/:id", async (req, res) => {
@@ -155,7 +155,7 @@ router.put("/:id", async (req, res) => {
   }
   await shoppingCartItem.save();
   res.status(204).send();
-  await updateLastModified("ShoppingCart");
+  await updateLastModified("shopping_cart");
 });
 
 router.delete("/:id", async (req, res) => {
@@ -172,12 +172,10 @@ router.delete("/:id", async (req, res) => {
   await shoppingCartItem.destroy();
   const all_items = await ShoppingCart.findAll();
   if (all_items.length === 0) {
-    await sequelize.query(
-      'UPDATE sqlite_sequence SET seq = 0 WHERE name = "ShoppingCart"',
-    );
+    await sequelize.query("ALTER SEQUENCE shopping_cart_id_seq RESTART WITH 1");
   }
   res.status(204).send();
-  await updateLastModified("ShoppingCart");
+  await updateLastModified("shopping_cart");
 });
 
 router.delete("/", async (req, res) => {
@@ -213,12 +211,10 @@ router.delete("/", async (req, res) => {
   const all_items = await ShoppingCart.findAll();
   console.log(all_items);
   if (all_items.length === 0) {
-    await sequelize.query(
-      'UPDATE sqlite_sequence SET seq = 0 WHERE name = "ShoppingCart"',
-    );
+    await sequelize.query("ALTER SEQUENCE shopping_cart_id_seq RESTART WITH 1");
   }
   res.status(204).send();
-  await updateLastModified("ShoppingCart");
+  await updateLastModified("shopping_cart");
 });
 
 module.exports = router;

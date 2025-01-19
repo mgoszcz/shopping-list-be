@@ -1,7 +1,6 @@
 const express = require("express");
 const router = express.Router({ mergeParams: true });
 const { Categories, Shops, ShopCategories } = require("../db/db");
-const lastModified = require("../utils/lastModified");
 const updateLastModified = require("../utils/lastModified");
 
 router.get("/", async (req, res) => {
@@ -46,7 +45,7 @@ router.put("/", async (req, res) => {
         shop_id: req.params.id,
       },
     });
-    await updateLastModified("ShopCategories");
+    await updateLastModified("shop_categories");
     return res.status(204).send();
   }
   for (const shopCategory of shopCategories) {
@@ -83,7 +82,7 @@ router.put("/", async (req, res) => {
     });
   }
   res.status(204).send();
-  await updateLastModified("ShopCategories");
+  await updateLastModified("shop_categories");
 });
 
 module.exports = router;

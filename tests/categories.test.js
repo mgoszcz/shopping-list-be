@@ -16,12 +16,10 @@ describe("Categories endpoint", () => {
   test("GET /categories/id should return specific category", async () => {
     const response = await axios.get(`${categoriesEndpoint}/1`);
     expect(response.status).toBe(200);
-    expect(response.data).toEqual({
-      id: 1,
-      name: "beta",
-      createdAt: "2025-01-07T13:19:51.838Z",
-      updatedAt: "2025-01-07T13:19:51.838Z",
-    });
+    expect(response.data.id).toBe(1);
+    expect(response.data.name).toBe("beta");
+    expect(response.data.createdAt).toBeDefined();
+    expect(response.data.updatedAt).toBeDefined();
   });
 
   test("GET /categories/id should return 404 if category not found", async () => {

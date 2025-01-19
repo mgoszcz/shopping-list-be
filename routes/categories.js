@@ -34,7 +34,7 @@ router.post("/", async (req, res) => {
 
   const category = await Categories.create(req.body);
   res.status(201).json(category);
-  await updateLastModified("Categories");
+  await updateLastModified("categories");
 });
 
 module.exports = router;

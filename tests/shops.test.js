@@ -20,13 +20,11 @@ describe("Shops endpoint", () => {
   test("GET /shops/id should return specific shop", async () => {
     const response = await axios.get(`${shopsEndpoint}/1`);
     expect(response.status).toBe(200);
-    expect(response.data).toEqual({
-      id: 1,
-      name: "Shop 1",
-      logo: "logo1.jpg",
-      createdAt: "2025-01-07T13:19:51.846Z",
-      updatedAt: "2025-01-07T13:19:51.846Z",
-    });
+    expect(response.data.id).toBe(1);
+    expect(response.data.name).toBe("Shop 1");
+    expect(response.data.logo).toBe("logo1.jpg");
+    expect(response.data.createdAt).toBeDefined();
+    expect(response.data.updatedAt).toBeDefined();
   });
 
   test("GET /shops/id should return 404 if shop not found", async () => {

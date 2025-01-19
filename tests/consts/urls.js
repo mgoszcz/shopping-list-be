@@ -8,6 +8,12 @@ const shopCategoriesEndpoint = (shopId) =>
 const shoppingArticlesEndpoint = `${baseUrl}/shoppingArticles`;
 const shoppingCartEndpoint = `${baseUrl}/shoppingCart`;
 const lastModifiedTimestampEndpoint = `${baseUrl}/lastModifiedTimestamp`;
+const lastModifiedCategoriesEndpoint = `${lastModifiedTimestampEndpoint}/categories`;
+const lastModifiedShoppingArticlesEndpoint = `${lastModifiedTimestampEndpoint}/shopping_articles`;
+const lastModifiedShoppingCartEndpoint = `${lastModifiedTimestampEndpoint}/shopping_cart`;
+const lastModifiedShopsEndpoint = `${lastModifiedTimestampEndpoint}/shops`;
+const lastModifiedShopCategoriesEndpoint = `${lastModifiedTimestampEndpoint}/shop_categories`;
+const lastModifiedCurrentShopEndpoint = `${lastModifiedTimestampEndpoint}/current_shop`;
 
 module.exports = {
   categoriesEndpoint,
@@ -17,4 +23,10 @@ module.exports = {
   shoppingArticlesEndpoint,
   shoppingCartEndpoint,
   lastModifiedTimestampEndpoint,
+  lastModifiedCategoriesEndpoint,
+  lastModifiedShoppingArticlesEndpoint,
+  lastModifiedShoppingCartEndpoint,
+  lastModifiedShopsEndpoint,
+  lastModifiedShopCategoriesEndpoint,
+  lastModifiedCurrentShopEndpoint,
 };
