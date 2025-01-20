@@ -8,6 +8,7 @@ const shopCategories = require("./routes/shopCategories");
 const currentShop = require("./routes/currentShop");
 const lastModifiedTimestamp = require("./routes/lastModifiedTimestamp");
 const db = require("./db/db");
+const errorHandler = require("./middleware/errorHandler");
 
 const app = express();
 const PORT = 3000;
@@ -21,6 +22,8 @@ app.use("/shops", shops);
 app.use("/shops/:id/categories", shopCategories);
 app.use("/currentShop", currentShop);
 app.use("/lastModifiedTimestamp", lastModifiedTimestamp);
+
+app.use(errorHandler);
 
 db.sequelize
   .sync()
