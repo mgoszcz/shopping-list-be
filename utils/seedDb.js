@@ -6,8 +6,8 @@ const {
   CurrentShop,
   ShopCategories,
   LastModified,
-} = require("../../db/db");
-const updateLastModified = require("../../utils/lastModified");
+} = require("../db/db");
+const updateLastModified = require("./lastModified");
 
 async function seedDatabase() {
   await CurrentShop.sync({ force: true });
