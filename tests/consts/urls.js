@@ -1,5 +1,6 @@
-const localBaseUrl = "http://localhost:3000";
-const baseUrl = localBaseUrl;
+const getBaseUrl = require("../../configuration/getBaseUrl");
+
+const baseUrl = getBaseUrl();
 const categoriesEndpoint = `${baseUrl}/categories`;
 const currentShopEndpoint = `${baseUrl}/currentShop`;
 const shopsEndpoint = `${baseUrl}/shops`;
@@ -14,6 +15,7 @@ const lastModifiedShoppingCartEndpoint = `${lastModifiedTimestampEndpoint}/shopp
 const lastModifiedShopsEndpoint = `${lastModifiedTimestampEndpoint}/shops`;
 const lastModifiedShopCategoriesEndpoint = `${lastModifiedTimestampEndpoint}/shop_categories`;
 const lastModifiedCurrentShopEndpoint = `${lastModifiedTimestampEndpoint}/current_shop`;
+const resetDatabaseEndpoint = `${baseUrl}/resetDatabase`;
 
 module.exports = {
   categoriesEndpoint,
@@ -29,4 +31,5 @@ module.exports = {
   lastModifiedShopsEndpoint,
   lastModifiedShopCategoriesEndpoint,
   lastModifiedCurrentShopEndpoint,
+  resetDatabaseEndpoint,
 };

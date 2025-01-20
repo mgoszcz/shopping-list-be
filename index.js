@@ -7,11 +7,13 @@ const shops = require("./routes/shops");
 const shopCategories = require("./routes/shopCategories");
 const currentShop = require("./routes/currentShop");
 const lastModifiedTimestamp = require("./routes/lastModifiedTimestamp");
+const resetDatabase = require("./routes/resetDb");
 const db = require("./db/db");
 const errorHandler = require("./middleware/errorHandler");
 
 const app = express();
 const PORT = 3000;
+const environment = process.env.ENVIRONMENT || "prod";
 
 app.use(bodyParser.json());
 
@@ -22,6 +24,10 @@ app.use("/shops", shops);
 app.use("/shops/:id/categories", shopCategories);
 app.use("/currentShop", currentShop);
 app.use("/lastModifiedTimestamp", lastModifiedTimestamp);
+
+if (environment !== "prod") {
+  app.use("/resetDatabase", resetDatabase);
+}
 
 app.use(errorHandler);
 
