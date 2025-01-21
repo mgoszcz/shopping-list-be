@@ -54,5 +54,5 @@ jobs:
         run: npm test
       - name: Stop application
         if: ${{ env.ENVIRONMENT == 'local' }}
-        run: kill ${{ env.APP_PID }}
+        run: kill $APP_PID
 
