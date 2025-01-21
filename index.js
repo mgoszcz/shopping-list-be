@@ -25,7 +25,7 @@ app.use("/shops/:id/categories", shopCategories);
 app.use("/currentShop", currentShop);
 app.use("/lastModifiedTimestamp", lastModifiedTimestamp);
 
-if (environment !== "prod") {
+if (environment !== "production") {
   app.use("/resetDatabase", resetDatabase);
 }
 
