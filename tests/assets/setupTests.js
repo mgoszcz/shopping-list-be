@@ -9,8 +9,9 @@ const resetDatabase = async (attempt = 1) => {
     }
   } catch (error) {
     if (attempt > 3) {
-      await resetDatabase(attempt + 1);
       console.log(`Attempt ${attempt} to reset database failed, retrying...`);
+      await new Promise((resolve) => setTimeout(resolve, 5000));
+      await resetDatabase(attempt + 1);
     } else {
       throw error;
     }
