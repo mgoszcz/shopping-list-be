@@ -1,0 +1,31 @@
+name: Run API tests
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Select test environment'
+        required: true
+        type: environment
+    pull_request:
+      types: [opened, reopened, edited, synchronize]
+
+jobs:
+  runTests:
+    name: Run API tests
+    runs-on: ubuntu-latest
+    env:
+      ENVIRONMENT: ${{ github.event.inputs.environment || 'local' }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Install dependencies
+        run: npm install
+      - name: Run application
+        if: ${{ env.ENVIRONMENT == 'local' }}
+        run: npm run start
+      - name: Run API tests
+        run: npm test
