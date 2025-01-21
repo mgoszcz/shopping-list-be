@@ -5,7 +5,10 @@ on:
       environment:
         description: 'Select test environment'
         required: true
-        type: environment
+        type: choice
+        options:
+          - 'local'
+          - 'development'
   pull_request:
     types: [opened, reopened, edited, synchronize]
 
