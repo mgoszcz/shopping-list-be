@@ -19,12 +19,10 @@ describe("Last modified endpoint for currentShop", () => {
 
   test("clearing current shop after shop removal should update last modified date of currentShop table", async () => {
     let r = await axios.get(currentShopEndpoint);
-    console.log(r.data);
     const timestampBefore = (await axios.get(lastModifiedCurrentShopEndpoint))
       .data.lastModified;
     await axios.delete(`${shopsEndpoint}/1`);
     r = await axios.get(currentShopEndpoint);
-    console.log(r.data);
     const response = await axios.get(lastModifiedCurrentShopEndpoint);
     expect(response.data.lastModified).not.toBe(timestampBefore);
   });
