@@ -24,7 +24,7 @@ jobs:
       PASSWORD: 'postgres'
     services:
       postgres:
-        image: ${{ env.ENVIRONMENT == 'local' && 'postgres:14' || '' }}
+        image: postgres:14
         env:
           POSTGRES_USER: ${{ env.USER_NAME }}
           POSTGRES_DB: ${{ env.DATABASE_NAME }}
