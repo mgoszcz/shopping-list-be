@@ -1,14 +1,6 @@
-name: Run API tests
+name: Run API tests - local env
 on:
-  workflow_dispatch:
-    inputs:
-      environment:
-        description: 'Select test environment'
-        required: true
-        type: choice
-        options:
-          - 'local'
-          - 'development'
+  workflow_call:
   pull_request:
     types: [opened, reopened, edited, synchronize]
 
@@ -17,7 +9,7 @@ jobs:
     name: Run API tests
     runs-on: ubuntu-latest
     env:
-      ENVIRONMENT: ${{ github.event.inputs.environment || 'local' }}
+      ENVIRONMENT: 'local'
       HOST_NAME: 'localhost'
       USER_NAME: 'postgres'
       DATABASE_NAME: 'postgres'
@@ -46,16 +38,13 @@ jobs:
       - name: Install dependencies
         run: npm install
       - name: Run application
-        if: ${{ env.ENVIRONMENT == 'local' }}
         run: |
           node index.js &
           echo "APP_PID=$!" >> $GITHUB_ENV
       - name: sleep 3 seconds
-        if: ${{ env.ENVIRONMENT == 'local' }}
         run: sleep 3
       - name: Run API tests
         run: npm test
       - name: Stop application
-        if: ${{ env.ENVIRONMENT == 'local' }}
         run: kill $APP_PID
 

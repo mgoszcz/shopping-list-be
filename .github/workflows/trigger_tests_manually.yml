@@ -1,0 +1,26 @@
+name: Run API tests
+on:
+  workflow_dispatch:
+    inputs:
+      environment:
+        description: 'Type of environment under test'
+        required: true
+        type: choice
+        options:
+          - 'local'
+          - 'development'
+
+jobs:
+  runTestsLocal:
+    name: Run API tests on local application
+    if: ${{ github.event.inputs.environment == 'local' }}
+    uses: ./.github/workflows/run_tests_local.yml
+    secrets: inherit
+
+  runTestsHosted:
+    name: Run API tests on hosted application
+    if: ${{ github.event.inputs.environment != 'local' }}
+    uses: ./.github/workflows/run_tests_hosted.yml
+    secrets: inherit
+    with:
+      environment: ${{ github.event.inputs.environment }}
