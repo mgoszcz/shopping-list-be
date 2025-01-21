@@ -6,8 +6,8 @@ on:
         description: 'Select test environment'
         required: true
         type: environment
-    pull_request:
-      types: [opened, reopened, edited, synchronize]
+  pull_request:
+    types: [opened, reopened, edited, synchronize]
 
 jobs:
   runTests:
