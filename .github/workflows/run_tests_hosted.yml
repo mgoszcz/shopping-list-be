@@ -1,0 +1,27 @@
+name: Run API tests - hosted application
+on:
+  workflow_call:
+    inputs:
+      environment:
+        description: 'Type of environment under test'
+        required: false
+        default: 'development'
+        type: string
+
+jobs:
+  runTests:
+    name: Run API tests
+    runs-on: ubuntu-latest
+    env:
+      ENVIRONMENT: ${{ github.event.inputs.environment }}
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Install dependencies
+        run: npm install
+      - name: Run API tests
+        run: npm test

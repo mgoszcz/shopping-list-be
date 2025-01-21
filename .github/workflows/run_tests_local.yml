@@ -1,0 +1,50 @@
+name: Run API tests - local env
+on:
+  workflow_call:
+  pull_request:
+    types: [opened, reopened, edited, synchronize]
+
+jobs:
+  runTests:
+    name: Run API tests
+    runs-on: ubuntu-latest
+    env:
+      ENVIRONMENT: 'local'
+      HOST_NAME: 'localhost'
+      USER_NAME: 'postgres'
+      DATABASE_NAME: 'postgres'
+      PASSWORD: 'postgres'
+    services:
+      postgres:
+        image: postgres:14
+        env:
+          POSTGRES_USER: ${{ env.USER_NAME }}
+          POSTGRES_DB: ${{ env.DATABASE_NAME }}
+          POSTGRES_PASSWORD: ${{ env.PASSWORD }}
+        ports:
+          - 5432:5432
+        options: >-
+          --health-cmd pg_isready
+          --health-interval 10s
+          --health-timeout 5s
+          --health-retries 5
+    steps:
+      - name: Checkout repository
+        uses: actions/checkout@v2
+      - name: Set up Node.js
+        uses: actions/setup-node@v2
+        with:
+          node-version: '14'
+      - name: Install dependencies
+        run: npm install
+      - name: Run application
+        run: |
+          node index.js &
+          echo "APP_PID=$!" >> $GITHUB_ENV
+      - name: sleep 3 seconds
+        run: sleep 3
+      - name: Run API tests
+        run: npm test
+      - name: Stop application
+        run: kill $APP_PID
+
