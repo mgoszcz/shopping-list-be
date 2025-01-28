@@ -10,11 +10,13 @@ const lastModifiedTimestamp = require("./routes/lastModifiedTimestamp");
 const resetDatabase = require("./routes/resetDb");
 const db = require("./db/db");
 const errorHandler = require("./middleware/errorHandler");
+const cors = require("cors");
 
 const app = express();
-const PORT = 3000;
+const PORT = 3001;
 const environment = process.env.ENVIRONMENT || "prod";
 
+app.use(cors());
 app.use(bodyParser.json());
 
 app.use("/categories", categories);
