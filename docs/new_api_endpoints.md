@@ -56,7 +56,10 @@ create new article
     "selection": 1,
     "id": 526,
     "name": "new article",
-    "category_id": 1,
+    "category": {
+        "id": 1,
+        "name": "category1"
+   },
     "updatedAt": "2025-01-01T18:02:44.649Z",
     "createdAt": "2025-01-01T18:02:44.649Z"
 }
@@ -83,7 +86,10 @@ update specific article
     "selection": 1,
     "id": 526,
     "name": "new article",
-    "category_id": 1,
+    "category": {
+        "id": 1,
+        "name": "category1"
+    },
     "updatedAt": "2025-01-01T18:02:44.649Z",
     "createdAt": "2025-01-01T18:02:44.649Z"
 }
@@ -162,7 +168,14 @@ add article selected by user
 ```json
 {
     "id": 5,
-    "article_id": 134,
+    "article": {
+        "id": 2,
+        "name": "article2"
+    },
+    "category": {
+      "id": 2,
+      "name": "category2"
+    },
     "quantity": 1,
     "checked": false,
     "updatedAt": "2025-01-01T18:06:19.973Z",
