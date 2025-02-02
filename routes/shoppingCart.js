@@ -146,7 +146,25 @@ router.post("/", async (req, res, next) => {
       by: 1,
       where: { id: article.id },
     });
-    res.status(201).json(shoppingCartItem);
+    const shoppingArticle = await ShoppingArticles.findByPk(
+      shoppingCartItem.article_id,
+    );
+    const transformedItem = {
+      id: shoppingCartItem.id,
+      article: {
+        id: shoppingArticle.id,
+        name: shoppingArticle.name,
+      },
+      category: {
+        id: shoppingArticle.category_id,
+        name: (await Categories.findByPk(shoppingArticle.category_id)).name,
+      },
+      quantity: shoppingCartItem.quantity,
+      checked: shoppingCartItem.checked,
+      createdAt: shoppingCartItem.createdAt,
+      updatedAt: shoppingCartItem.updatedAt,
+    };
+    res.status(201).json(transformedItem);
     await updateLastModified("shopping_cart");
   } catch (err) {
     next(err);
@@ -232,7 +250,6 @@ router.delete("/", async (req, res, next) => {
       await ShoppingCart.destroy({ where: {} });
     }
     const all_items = await ShoppingCart.findAll();
-    console.log(all_items);
     if (all_items.length === 0) {
       await sequelize.query(
         "ALTER SEQUENCE shopping_cart_id_seq RESTART WITH 1",

@@ -12,7 +12,8 @@ describe("Shopping cart endpoint POST", () => {
     });
     expect(response.status).toBe(201);
     expect(response.data.id).toBeDefined();
-    expect(response.data.article_id).toBe(2);
+    expect(response.data.article.id).toBe(2);
+    expect(response.data.category.id).toBe(2);
     expect(response.data.quantity).toBe(1);
     expect(response.data.checked).toBe(false);
     const getResponse = await axios.get(shoppingCartEndpoint);

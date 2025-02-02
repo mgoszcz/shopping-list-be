@@ -87,7 +87,7 @@ describe("Shopping Articles endpoint", () => {
     });
     expect(response.status).toBe(201);
     expect(response.data.name).toBe("New Article");
-    expect(response.data.category_id).toBe(3);
+    expect(response.data.category.id).toBe(3);
     expect(response.data.id).toBeDefined();
   });
 
@@ -100,7 +100,7 @@ describe("Shopping Articles endpoint", () => {
     });
     expect(response.status).toBe(201);
     expect(response.data.name).toBe("HH first article");
-    expect(response.data.category_id).toBe(2);
+    expect(response.data.category.id).toBe(2);
     expect(response.data.id).toBeDefined();
     const allArticles = await axios.get(shoppingArticlesEndpoint);
     expect(
@@ -197,7 +197,7 @@ describe("Shopping Articles endpoint", () => {
     });
     expect(response.status).toBe(201);
     expect(response.data.name).toBe("PUT new Name");
-    expect(response.data.category_id).toBe(1);
+    expect(response.data.category.id).toBe(1);
     expect(response.data.id).toBeDefined();
     const updatedArticle = await axios.get(`${shoppingArticlesEndpoint}/5`);
     expect(updatedArticle.data.name).toBe("PUT new Name");

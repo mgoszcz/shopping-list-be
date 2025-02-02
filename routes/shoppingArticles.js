@@ -112,7 +112,18 @@ router.post("/", async (req, res, next) => {
       name: name,
       category_id: category.id,
     });
-    res.status(201).json(shoppingArticle);
+    const transformedArticle = {
+      id: shoppingArticle.id,
+      name: shoppingArticle.name,
+      selection: shoppingArticle.selection,
+      category: {
+        id: shoppingArticle.category_id,
+        name: (await Categories.findByPk(shoppingArticle.category_id)).name,
+      },
+      createdAt: shoppingArticle.createdAt,
+      updatedAt: shoppingArticle.updatedAt,
+    };
+    res.status(201).json(transformedArticle);
     await updateLastModified("shopping_articles");
   } catch (err) {
     next(err);
@@ -150,7 +161,18 @@ router.put("/:id", async (req, res, next) => {
         name: name,
         category_id: category.id,
       });
-      res.status(201).json(shoppingArticle);
+      const transformedArticle = {
+        id: shoppingArticle.id,
+        name: shoppingArticle.name,
+        selection: shoppingArticle.selection,
+        category: {
+          id: shoppingArticle.category_id,
+          name: (await Categories.findByPk(shoppingArticle.category_id)).name,
+        },
+        createdAt: shoppingArticle.createdAt,
+        updatedAt: shoppingArticle.updatedAt,
+      };
+      res.status(201).json(transformedArticle);
     } else {
       if (
         (await ShoppingArticles.findOne({
