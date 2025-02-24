@@ -8,6 +8,7 @@ const shopCategories = require("./routes/shopCategories");
 const currentShop = require("./routes/currentShop");
 const lastModifiedTimestamp = require("./routes/lastModifiedTimestamp");
 const resetDatabase = require("./routes/resetDb");
+const clearDatabese = require("./routes/clearDb");
 const db = require("./db/db");
 const errorHandler = require("./middleware/errorHandler");
 const cors = require("cors");
@@ -26,6 +27,7 @@ app.use("/shops", shops);
 app.use("/shops/:id/categories", shopCategories);
 app.use("/currentShop", currentShop);
 app.use("/lastModifiedTimestamp", lastModifiedTimestamp);
+app.use("/clearDatabase", clearDatabese);
 
 if (environment !== "production") {
   app.use("/resetDatabase", resetDatabase);
