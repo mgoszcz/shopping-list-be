@@ -164,3 +164,4 @@ cython_debug/
 node_modules
 render.env
 railway.env
+.vscode/

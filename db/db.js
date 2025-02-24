@@ -6,9 +6,9 @@ require("dotenv").config();
 console.log(process.env.HOST_NAME);
 
 const hostname = process.env.HOST_NAME || "localhost";
-const userName = process.env.USER_NAME || "Gosz375781";
+const userName = process.env.USER_NAME || "postgres";
 const databaseName = process.env.DATABASE_NAME || "shoppingList";
-const password = process.env.PASSWORD || "";
+const password = process.env.PASSWORD || "citadis";
 
 let dialectOptions = {};
 
@@ -36,7 +36,7 @@ const Shops = sequelize.define(
   },
   {
     tableName: "shops",
-  },
+  }
 );
 
 const Categories = sequelize.define(
@@ -46,7 +46,7 @@ const Categories = sequelize.define(
   },
   {
     tableName: "categories",
-  },
+  }
 );
 
 const ShoppingArticles = sequelize.define(
@@ -57,7 +57,7 @@ const ShoppingArticles = sequelize.define(
   },
   {
     tableName: "shopping_articles",
-  },
+  }
 );
 
 const ShoppingCart = sequelize.define(
@@ -69,7 +69,7 @@ const ShoppingCart = sequelize.define(
   },
   {
     tableName: "shopping_cart",
-  },
+  }
 );
 
 const ShopCategories = sequelize.define(
@@ -79,7 +79,7 @@ const ShopCategories = sequelize.define(
   },
   {
     tableName: "shop_categories",
-  },
+  }
 );
 
 const CurrentShop = sequelize.define(
@@ -90,7 +90,7 @@ const CurrentShop = sequelize.define(
   },
   {
     tableName: "current_shop",
-  },
+  }
 );
 
 const LastModified = sequelize.define(
@@ -105,7 +105,7 @@ const LastModified = sequelize.define(
   },
   {
     tableName: "last_modified",
-  },
+  }
 );
 
 // Associations
