@@ -49,7 +49,6 @@ const migrateShopsCategoryOrder = async (oldShops, newShops, categories) => {
       });
       order++;
     }
-    console.log(newCategoryOrder);
     await axios.put(shopCategoriesEndpoint(newShop.id), newCategoryOrder);
   }
   console.log("Shop categories migration completed");

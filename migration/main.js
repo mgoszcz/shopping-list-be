@@ -1,4 +1,5 @@
-const jsonData = require("../db/backup.json");
+const JSON_PATH = "./backup.json";
+const jsonData = require(JSON_PATH);
 const { migrateArticles } = require("./migrateArticles");
 const { migrateCategories } = require("./migrateCategories");
 const {
