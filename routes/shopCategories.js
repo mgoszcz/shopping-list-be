@@ -15,7 +15,7 @@ router.get("/", async (req, res, next) => {
       },
     });
     const sortedCategories = shopCategories.sort(
-      (a, b) => a.category_order - b.category_order,
+      (a, b) => a.category_order - b.category_order
     );
     const transformedShopCategories = [];
     for (const shopCategory of sortedCategories) {
@@ -53,6 +53,7 @@ router.put("/", async (req, res, next) => {
         },
       });
       await updateLastModified("shop_categories");
+      await updateLastModified("shopping_cart");
       return res.status(204).send();
     }
     for (const shopCategory of shopCategories) {
@@ -69,7 +70,7 @@ router.put("/", async (req, res, next) => {
       }
       if (
         shopCategories.filter(
-          (sc) => sc.category.id === shopCategory.category.id,
+          (sc) => sc.category.id === shopCategory.category.id
         ).length > 1
       ) {
         return res.status(400).send({
@@ -91,6 +92,7 @@ router.put("/", async (req, res, next) => {
     }
     res.status(204).send();
     await updateLastModified("shop_categories");
+    await updateLastModified("shopping_cart");
   } catch (err) {
     next(err);
   }
