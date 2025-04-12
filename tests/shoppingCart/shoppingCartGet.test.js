@@ -11,6 +11,7 @@ const {
   CART_WITH_SOME_NOT_SORTED,
   CART_ONLY_CHECKED,
   CART_ONLY_UNCHECKED,
+  CART_WITH_NONE_SORTED,
 } = require("./shoppingCartAssets");
 
 describe("Shopping cart endpoint GET", () => {
@@ -51,14 +52,14 @@ describe("Shopping cart endpoint GET", () => {
     await axios.put(currentShopEndpoint, { shop_id: 3 });
     const response = await axios.get(shoppingCartEndpoint);
     expect(response.status).toBe(200);
-    expect(response.data).toEqual(CART_SORTED_ALPHABETICALLY);
+    expect(response.data).toEqual(CART_WITH_NONE_SORTED);
   });
 
   test("GET /shoppingCart should return an array of products without current shop", async () => {
     await axios.delete(`${shopsEndpoint}/1`);
     const response = await axios.get(shoppingCartEndpoint);
     expect(response.status).toBe(200);
-    expect(response.data).toEqual(CART_SORTED_ALPHABETICALLY);
+    expect(response.data).toEqual(CART_WITH_NONE_SORTED);
   });
 
   test("GET /shoppingCart can return only checked items with query param", async () => {
@@ -120,7 +121,7 @@ describe("Shopping cart endpoint GET", () => {
     } catch (error) {
       expect(error.response.status).toBe(404);
       expect(error.response.data.message).toEqual(
-        "Shopping cart item not found",
+        "Shopping cart item not found"
       );
     }
   });

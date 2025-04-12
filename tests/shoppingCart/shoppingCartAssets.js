@@ -11,6 +11,7 @@ const CART_SORTED_ALPHABETICALLY = [
     },
     quantity: 1,
     checked: false,
+    sorted: true,
   },
   {
     id: 2,
@@ -24,6 +25,7 @@ const CART_SORTED_ALPHABETICALLY = [
     },
     quantity: 1,
     checked: false,
+    sorted: true,
   },
   {
     id: 1,
@@ -37,6 +39,7 @@ const CART_SORTED_ALPHABETICALLY = [
     },
     quantity: 2,
     checked: true,
+    sorted: true,
   },
 ];
 
@@ -53,6 +56,7 @@ const CART_SORTED_BY_SHOP = [
     },
     quantity: 1,
     checked: false,
+    sorted: true,
   },
   {
     id: 1,
@@ -66,6 +70,7 @@ const CART_SORTED_BY_SHOP = [
     },
     quantity: 2,
     checked: true,
+    sorted: true,
   },
   {
     id: 3,
@@ -79,6 +84,7 @@ const CART_SORTED_BY_SHOP = [
     },
     quantity: 1,
     checked: false,
+    sorted: true,
   },
 ];
 
@@ -95,6 +101,7 @@ const CART_WITH_SOME_NOT_SORTED = [
     },
     quantity: 2,
     checked: true,
+    sorted: false,
   },
   {
     id: 3,
@@ -108,6 +115,7 @@ const CART_WITH_SOME_NOT_SORTED = [
     },
     quantity: 1,
     checked: false,
+    sorted: true,
   },
   {
     id: 2,
@@ -121,6 +129,52 @@ const CART_WITH_SOME_NOT_SORTED = [
     },
     quantity: 1,
     checked: false,
+    sorted: true,
+  },
+];
+
+const CART_WITH_NONE_SORTED = [
+  {
+    id: 3,
+    article: {
+      id: 1,
+      name: "HH first article",
+    },
+    category: {
+      id: 3,
+      name: "alpha",
+    },
+    quantity: 1,
+    checked: false,
+    sorted: false,
+  },
+  {
+    id: 2,
+    article: {
+      id: 4,
+      name: "XX fourth article",
+    },
+    category: {
+      id: 2,
+      name: "gamma",
+    },
+    quantity: 1,
+    checked: false,
+    sorted: false,
+  },
+  {
+    id: 1,
+    article: {
+      id: 3,
+      name: "ZZ third article",
+    },
+    category: {
+      id: 1,
+      name: "beta",
+    },
+    quantity: 2,
+    checked: true,
+    sorted: false,
   },
 ];
 
@@ -137,6 +191,7 @@ const CART_ONLY_CHECKED = [
     },
     quantity: 2,
     checked: true,
+    sorted: true,
   },
 ];
 
@@ -153,6 +208,7 @@ const CART_ONLY_UNCHECKED = [
     },
     quantity: 1,
     checked: false,
+    sorted: true,
   },
   {
     id: 3,
@@ -166,6 +222,7 @@ const CART_ONLY_UNCHECKED = [
     },
     quantity: 1,
     checked: false,
+    sorted: true,
   },
 ];
 
@@ -175,4 +232,5 @@ module.exports = {
   CART_WITH_SOME_NOT_SORTED,
   CART_ONLY_CHECKED,
   CART_ONLY_UNCHECKED,
+  CART_WITH_NONE_SORTED,
 };
