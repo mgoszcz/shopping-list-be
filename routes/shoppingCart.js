@@ -24,7 +24,7 @@ router.get("/", async (req, res, next) => {
     let transformedShoppingCartItems = [];
     for (const shoppingCartItem of shoppingCartItems) {
       const shoppingArticle = await ShoppingArticles.findByPk(
-        shoppingCartItem.article_id,
+        shoppingCartItem.article_id
       );
       transformedShoppingCartItems.push({
         id: shoppingCartItem.id,
@@ -38,6 +38,7 @@ router.get("/", async (req, res, next) => {
         },
         quantity: shoppingCartItem.quantity,
         checked: shoppingCartItem.checked,
+        sorted: true,
       });
     }
     if (sortingOrder === sortingOrders.BY_SHOP) {
@@ -51,6 +52,10 @@ router.get("/", async (req, res, next) => {
       )
         .sort((a, b) => a.category_order - b.category_order)
         .map((shopCategory) => shopCategory.category_id);
+      transformedShoppingCartItems.forEach((item) => {
+        !sortedCategories.some((category) => item.category.id === category) &&
+          (item.sorted = false);
+      });
       transformedShoppingCartItems.sort((a, b) => {
         const indexA = sortedCategories.indexOf(a.category.id || -1);
         const indexB = sortedCategories.indexOf(b.category.id || -1);
@@ -67,19 +72,19 @@ router.get("/", async (req, res, next) => {
       });
     } else if (sortingOrder === sortingOrders.ALPHABETICALLY) {
       transformedShoppingCartItems.sort((a, b) =>
-        a.article.name.localeCompare(b.article.name),
+        a.article.name.localeCompare(b.article.name)
       );
     } else {
       return res.status(400).send({ message: "Invalid sorting order" });
     }
     if (checkedOnly) {
       transformedShoppingCartItems = transformedShoppingCartItems.filter(
-        (item) => item.checked,
+        (item) => item.checked
       );
     }
     if (uncheckedOnly) {
       transformedShoppingCartItems = transformedShoppingCartItems.filter(
-        (item) => !item.checked,
+        (item) => !item.checked
       );
     }
     res.json(transformedShoppingCartItems);
@@ -95,7 +100,7 @@ router.get("/:id", async (req, res, next) => {
       res.status(404).send({ message: "Shopping cart item not found" });
     } else {
       const shoppingArticle = await ShoppingArticles.findByPk(
-        shoppingCartItem.article_id,
+        shoppingCartItem.article_id
       );
       const transformedItem = {
         id: shoppingCartItem.id,
@@ -147,7 +152,7 @@ router.post("/", async (req, res, next) => {
       where: { id: article.id },
     });
     const shoppingArticle = await ShoppingArticles.findByPk(
-      shoppingCartItem.article_id,
+      shoppingCartItem.article_id
     );
     const transformedItem = {
       id: shoppingCartItem.id,
@@ -208,7 +213,7 @@ router.delete("/:id", async (req, res, next) => {
     const all_items = await ShoppingCart.findAll();
     if (all_items.length === 0) {
       await sequelize.query(
-        "ALTER SEQUENCE shopping_cart_id_seq RESTART WITH 1",
+        "ALTER SEQUENCE shopping_cart_id_seq RESTART WITH 1"
       );
     }
     res.status(204).send();
@@ -252,7 +257,7 @@ router.delete("/", async (req, res, next) => {
     const all_items = await ShoppingCart.findAll();
     if (all_items.length === 0) {
       await sequelize.query(
-        "ALTER SEQUENCE shopping_cart_id_seq RESTART WITH 1",
+        "ALTER SEQUENCE shopping_cart_id_seq RESTART WITH 1"
       );
     }
     res.status(204).send();

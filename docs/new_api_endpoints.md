@@ -22,19 +22,23 @@ returns list of all articles
     "id": 2,
     "name": "article2",
     "category": {
-        "id": 2,
-        "name": "category2"
+      "id": 2,
+      "name": "category2"
     },
     "selection": 1
   }
 ]
 ```
+
 ### Responses
+
 - 200 - OK
 
 `GET /shopping_articles/:id`
 return specific article
+
 ### Responses
+
 - 200 - OK
 - 404 - Not found
 
@@ -49,21 +53,25 @@ create new article
   }
 }
 ```
+
 ### Responses
+
 - 201 - Created
+
 ```json
 {
-    "selection": 1,
-    "id": 526,
-    "name": "new article",
-    "category": {
-        "id": 1,
-        "name": "category1"
-   },
-    "updatedAt": "2025-01-01T18:02:44.649Z",
-    "createdAt": "2025-01-01T18:02:44.649Z"
+  "selection": 1,
+  "id": 526,
+  "name": "new article",
+  "category": {
+    "id": 1,
+    "name": "category1"
+  },
+  "updatedAt": "2025-01-01T18:02:44.649Z",
+  "createdAt": "2025-01-01T18:02:44.649Z"
 }
 ```
+
 - 400 - Bad request
 - 404 - Not found (category not found)
 - 409 - Conflict (article already exists)
@@ -79,21 +87,25 @@ update specific article
   }
 }
 ```
+
 ### Responses
+
 - 201 - Created (if article does not exist)
+
 ```json
 {
-    "selection": 1,
-    "id": 526,
-    "name": "new article",
-    "category": {
-        "id": 1,
-        "name": "category1"
-    },
-    "updatedAt": "2025-01-01T18:02:44.649Z",
-    "createdAt": "2025-01-01T18:02:44.649Z"
+  "selection": 1,
+  "id": 526,
+  "name": "new article",
+  "category": {
+    "id": 1,
+    "name": "category1"
+  },
+  "updatedAt": "2025-01-01T18:02:44.649Z",
+  "createdAt": "2025-01-01T18:02:44.649Z"
 }
 ```
+
 - 204 - No content (if article exists and updated)
 - 400 - Bad request
 - 404 - Not found (category not found)
@@ -101,7 +113,9 @@ update specific article
 
 `DELETE /shopping_articles/:id`
 delete specific article
+
 ### Responses
+
 - 204 - No content
 - 404 - Not found
 
@@ -110,8 +124,15 @@ delete specific article
 ## this endpoint will provide an access to articles selected by user for shopping list (`hopping_list` in old API)
 
 `GET /shopping_cart`
-returns list of all articles selected by user
+returns list of all articles selected by user. It adds `sorted` attribute for each item to determine if it was sorted by shop or not.  
+Sorted state:
+
+- Sorting by shop and item category is in current shop categories: `true`
+- Sorting by shop and item category is not in current shop categories: `false`
+- Sorting alphabetically: `true`
+
 ### Query parameters:
+
 - `checked` - boolean, if true return only checked articles
 - `unchecked` - boolean, if true return only unchecked articles
 - `sort` - string, sort articles by name (`alpha`) or category order in shop (`byShop`). ByShop is default value
@@ -129,7 +150,8 @@ returns list of all articles selected by user
       "name": "category1"
     },
     "quantity": 1,
-    "checked": false
+    "checked": false,
+    "sorted": false
   },
   {
     "id": 2,
@@ -142,16 +164,21 @@ returns list of all articles selected by user
       "name": "category2"
     },
     "quantity": 2,
-    "checked": true
+    "checked": true,
+    "sorted": true
   }
 ]
 ```
+
 ### Responses
+
 - 200 - OK
 
 `GET /shopping_cart/:id`
-return specific article selected by user 
+return specific article selected by user
+
 ### Responses
+
 - 200 - OK
 - 404 - Not found
 
@@ -163,25 +190,29 @@ add article selected by user
   "article": { "id": 3 }
 }
 ```
+
 ### Responses
+
 - 201 - Created
+
 ```json
 {
-    "id": 5,
-    "article": {
-        "id": 2,
-        "name": "article2"
-    },
-    "category": {
-      "id": 2,
-      "name": "category2"
-    },
-    "quantity": 1,
-    "checked": false,
-    "updatedAt": "2025-01-01T18:06:19.973Z",
-    "createdAt": "2025-01-01T18:06:19.973Z"
+  "id": 5,
+  "article": {
+    "id": 2,
+    "name": "article2"
+  },
+  "category": {
+    "id": 2,
+    "name": "category2"
+  },
+  "quantity": 1,
+  "checked": false,
+  "updatedAt": "2025-01-01T18:06:19.973Z",
+  "createdAt": "2025-01-01T18:06:19.973Z"
 }
 ```
+
 - 400 - Bad request
 - 404 - Not found (article not found)
 - 409 - Conflict (article already exists)
@@ -195,19 +226,25 @@ update specific article selected by user
   "checked": false
 }
 ```
+
 ### Responses
+
 - 204 - No content
 - 404 - Not found
 
 `DELETE /shopping_cart/:id`
 remove article from cart
+
 ### Responses
+
 - 204 - No content
 - 404 - Not found
 
 `DELETE /shopping_cart`
 remove all articles from cart
+
 ### Query parameters:
+
 - `checked` - boolean, if true remove only checked articles
 - `unchecked` - boolean, if true remove only unchecked articles
 - ### Responses
@@ -233,12 +270,16 @@ returns list of all categories
   }
 ]
 ```
+
 ### Responses
+
 - 200 - OK
 
 `GET /categories/:id`
 return specific category
+
 ### Responses
+
 - 200 - OK
 - 404 - Not found
 
@@ -250,16 +291,20 @@ create new category
   "name": "category3"
 }
 ```
+
 ### Responses
+
 - 201 - Created
+
 ```json
 {
-    "id": 53,
-    "name": "new category",
-    "updatedAt": "2025-01-01T17:57:29.129Z",
-    "createdAt": "2025-01-01T17:57:29.129Z"
+  "id": 53,
+  "name": "new category",
+  "updatedAt": "2025-01-01T17:57:29.129Z",
+  "createdAt": "2025-01-01T17:57:29.129Z"
 }
 ```
+
 - 400 - Bad request
 - 409 - Conflict (category already exists)
 
@@ -287,7 +332,9 @@ returns list of all shops
   }
 ]
 ```
+
 ### Responses
+
 - 200 - OK
 
 `GET /shops/:id`
@@ -300,7 +347,9 @@ return specific shop
   "name": "shop1"
 }
 ```
+
 ### Responses
+
 - 200 - OK
 - 404 - Not found
 
@@ -313,17 +362,21 @@ create new shop
   "name": "shop3"
 }
 ```
+
 ### Responses
+
 - 201 - Created
+
 ```json
 {
-    "id": 3,
-    "logo": "logo3.jpg",
-    "name": "shop3",
-    "updatedAt": "2025-01-01T17:57:29.129Z",
-    "createdAt": "2025-01-01T17:57:29.129Z"
+  "id": 3,
+  "logo": "logo3.jpg",
+  "name": "shop3",
+  "updatedAt": "2025-01-01T17:57:29.129Z",
+  "createdAt": "2025-01-01T17:57:29.129Z"
 }
 ```
+
 - 400 - Bad request
 - 409 - Conflict (shop already exists)
 
@@ -336,24 +389,30 @@ update specific shop
   "name": "shop3"
 }
 ```
+
 ### Responses
+
 - 201 - Created (if shop does not exist)
+
 ```json
 {
-    "id": 3,
-    "logo": "logo3.jpg",
-    "name": "shop3",
-    "updatedAt": "2025-01-01T17:57:29.129Z",
-    "createdAt": "2025-01-01T17:57:29.129Z"
+  "id": 3,
+  "logo": "logo3.jpg",
+  "name": "shop3",
+  "updatedAt": "2025-01-01T17:57:29.129Z",
+  "createdAt": "2025-01-01T17:57:29.129Z"
 }
 ```
+
 - 204 - No content (if shop exists and updated)
 - 400 - Bad request
 - 409 - Conflict (shop already exists)
 
 `DELETE /shops/:id`
 delete specific shop
+
 ### Responses
+
 - 204 - No content
 - 404 - Not found
 
@@ -382,7 +441,9 @@ returns list of categories for specific shop
   }
 ]
 ```
+
 ### Responses
+
 - 200 - OK
 - 404 - Not found
 
@@ -411,7 +472,9 @@ updates categories list for specific shop (or create if not exists)
   }
 ]
 ```
+
 ### Responses
+
 - 204 - No content
 - 400 - Bad request
 - 404 - Not found (category not found)
@@ -430,7 +493,9 @@ returns current selected shop
   "name": "shop1"
 }
 ```
+
 ### Responses
+
 - 200 - OK
 - 204 - if current shop is not set
 
@@ -442,7 +507,9 @@ updates current selected shop
   "shop_id": 2
 }
 ```
+
 ### Responses
+
 - 204 - No content
 - 400 - Bad request
 - 404 - Not found (shop not found)
@@ -465,6 +532,7 @@ returns timestamp of last change for each table in database
 ```
 
 ### Responses
+
 - 200 - OK
 
 `GET /lastModifiedTimestamp/:table`
@@ -472,13 +540,14 @@ returns timestamp of last change for specific table in database
 
 ```json
 {
-    "last_modified": "2025-01-07T13:19:51.844Z",
-    "table_name": "Categories",
-    "createdAt": "2025-01-07T13:19:51.844Z",
-    "updatedAt": "2025-01-07T13:19:51.844Z"
+  "last_modified": "2025-01-07T13:19:51.844Z",
+  "table_name": "Categories",
+  "createdAt": "2025-01-07T13:19:51.844Z",
+  "updatedAt": "2025-01-07T13:19:51.844Z"
 }
 ```
 
 ### Responses
+
 - 200 - OK
 - 404 - Not found
