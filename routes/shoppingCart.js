@@ -56,6 +56,9 @@ router.get("/", async (req, res, next) => {
         !sortedCategories.some((category) => item.category.id === category) &&
           (item.sorted = false);
       });
+      transformedShoppingCartItems.sort((a, b) =>
+        a.article.name.localeCompare(b.article.name)
+      );
       transformedShoppingCartItems.sort((a, b) => {
         const indexA = sortedCategories.indexOf(a.category.id || -1);
         const indexB = sortedCategories.indexOf(b.category.id || -1);
