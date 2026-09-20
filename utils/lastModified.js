@@ -1,14 +1,12 @@
 const { LastModified } = require("../db/db");
 
 async function updateLastModified(tableName) {
-  await LastModified.destroy({
-    where: {
-      table_name: tableName,
-    },
-  });
-  await LastModified.create({
+  const previous = await LastModified.findByPk(tableName);
+  const previousTimestamp = previous?.last_modified?.getTime() ?? 0;
+
+  await LastModified.upsert({
     table_name: tableName,
-    last_modified: new Date(),
+    last_modified: new Date(Math.max(Date.now(), previousTimestamp + 1)),
   });
 }
 

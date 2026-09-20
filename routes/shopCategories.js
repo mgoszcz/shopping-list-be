@@ -90,9 +90,9 @@ router.put("/", async (req, res, next) => {
         category_order: shopCategory.category_order,
       });
     }
-    res.status(204).send();
     await updateLastModified("shop_categories");
     await updateLastModified("shopping_cart");
+    res.status(204).send();
   } catch (err) {
     next(err);
   }

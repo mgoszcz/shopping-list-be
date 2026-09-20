@@ -172,8 +172,8 @@ router.post("/", async (req, res, next) => {
       createdAt: shoppingCartItem.createdAt,
       updatedAt: shoppingCartItem.updatedAt,
     };
-    res.status(201).json(transformedItem);
     await updateLastModified("shopping_cart");
+    res.status(201).json(transformedItem);
   } catch (err) {
     next(err);
   }
@@ -193,8 +193,8 @@ router.put("/:id", async (req, res, next) => {
       shoppingCartItem.checked = checked;
     }
     await shoppingCartItem.save();
-    res.status(204).send();
     await updateLastModified("shopping_cart");
+    res.status(204).send();
   } catch (err) {
     next(err);
   }
@@ -219,8 +219,8 @@ router.delete("/:id", async (req, res, next) => {
         "ALTER SEQUENCE shopping_cart_id_seq RESTART WITH 1"
       );
     }
-    res.status(204).send();
     await updateLastModified("shopping_cart");
+    res.status(204).send();
   } catch (err) {
     next(err);
   }
@@ -263,8 +263,8 @@ router.delete("/", async (req, res, next) => {
         "ALTER SEQUENCE shopping_cart_id_seq RESTART WITH 1"
       );
     }
-    res.status(204).send();
     await updateLastModified("shopping_cart");
+    res.status(204).send();
   } catch (err) {
     next(err);
   }

@@ -37,8 +37,8 @@ router.put("/", async (req, res, next) => {
 
     await CurrentShop.destroy({ where: {} });
     await CurrentShop.create({ shop_id });
-    res.status(204).send();
     await updateLastModified("current_shop");
+    res.status(204).send();
   } catch (err) {
     next(err);
   }
