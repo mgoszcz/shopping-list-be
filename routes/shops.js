@@ -43,8 +43,8 @@ router.post("/", async (req, res, next) => {
       return res.status(409).send({ message: "Shop already exists" });
     }
     const shop = await Shops.create(req.body);
-    res.status(201).json(shop);
     await updateLastModified("shops");
+    res.status(201).json(shop);
   } catch (err) {
     next(err);
   }
@@ -62,6 +62,7 @@ router.put("/:id", async (req, res, next) => {
         return res.status(409).send({ message: "Shop already exists" });
       }
       const shop = await Shops.create(req.body);
+      await updateLastModified("shops");
       res.status(201).json(shop);
     } else {
       if (
@@ -73,9 +74,9 @@ router.put("/:id", async (req, res, next) => {
       shop.name = name;
       shop.logo = logo;
       await shop.save();
+      await updateLastModified("shops");
       res.status(204).send();
     }
-    await updateLastModified("shops");
   } catch (err) {
     next(err);
   }
@@ -99,8 +100,8 @@ router.delete("/:id", async (req, res, next) => {
       await updateLastModified("current_shop");
     }
     await shop.destroy();
-    res.status(204).send();
     await updateLastModified("shops");
+    res.status(204).send();
   } catch (err) {
     next(err);
   }

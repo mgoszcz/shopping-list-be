@@ -15,11 +15,11 @@ const deleteCategoryIfUnused = async (categoryId) => {
     null
   ) {
     await ShopCategories.findAll({ where: { category_id: categoryId } }).then(
-      (shopCategories) => {
-        for (const shopCategory of shopCategories) {
-          shopCategory.destroy();
-        }
-        updateLastModified("shop_categories");
+      async (shopCategories) => {
+        await Promise.all(
+          shopCategories.map((shopCategory) => shopCategory.destroy()),
+        );
+        await updateLastModified("shop_categories");
       },
     );
     const category = await Categories.findByPk(categoryId);
@@ -123,8 +123,8 @@ router.post("/", async (req, res, next) => {
       createdAt: shoppingArticle.createdAt,
       updatedAt: shoppingArticle.updatedAt,
     };
-    res.status(201).json(transformedArticle);
     await updateLastModified("shopping_articles");
+    res.status(201).json(transformedArticle);
   } catch (err) {
     next(err);
   }
@@ -172,6 +172,7 @@ router.put("/:id", async (req, res, next) => {
         createdAt: shoppingArticle.createdAt,
         updatedAt: shoppingArticle.updatedAt,
       };
+      await updateLastModified("shopping_articles");
       res.status(201).json(transformedArticle);
     } else {
       if (
@@ -196,9 +197,9 @@ router.put("/:id", async (req, res, next) => {
       }
       await shoppingArticle.save();
       await deleteCategoryIfUnused(oldCategoryId);
+      await updateLastModified("shopping_articles");
       res.status(204).send();
     }
-    await updateLastModified("shopping_articles");
   } catch (err) {
     next(err);
   }
@@ -221,8 +222,8 @@ router.delete("/:id", async (req, res, next) => {
     await shoppingArticle.destroy();
     await deleteCategoryIfUnused(categoryId);
     await deleteFromShoppingCartIfNeeded(req.params.id);
-    res.status(204).send();
     await updateLastModified("shopping_articles");
+    res.status(204).send();
   } catch (err) {
     next(err);
   }

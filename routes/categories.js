@@ -42,8 +42,8 @@ router.post("/", async (req, res, next) => {
     }
 
     const category = await Categories.create(req.body);
-    res.status(201).json(category);
     await updateLastModified("categories");
+    res.status(201).json(category);
   } catch (err) {
     next(err);
   }
