@@ -1,4 +1,5 @@
 const {
+  sequelize,
   Shops,
   Categories,
   ShoppingArticles,
@@ -10,13 +11,7 @@ const {
 const updateLastModified = require("./lastModified");
 
 async function seedDatabase() {
-  await CurrentShop.sync({ force: true });
-  await ShoppingCart.sync({ force: true });
-  await ShoppingArticles.sync({ force: true });
-  await ShopCategories.sync({ force: true });
-  await Shops.sync({ force: true });
-  await Categories.sync({ force: true });
-  await LastModified.sync({ force: true });
+  await sequelize.sync({ force: true });
 
   console.log("Create categories");
   // Create categories
@@ -96,13 +91,7 @@ async function seedDatabase() {
 }
 
 async function clearDb() {
-  await CurrentShop.sync({ force: true });
-  await ShoppingCart.sync({ force: true });
-  await ShoppingArticles.sync({ force: true });
-  await ShopCategories.sync({ force: true });
-  await Shops.sync({ force: true });
-  await Categories.sync({ force: true });
-  await LastModified.sync({ force: true });
+  await sequelize.sync({ force: true });
 }
 
 module.exports = { seedDatabase, clearDb };
